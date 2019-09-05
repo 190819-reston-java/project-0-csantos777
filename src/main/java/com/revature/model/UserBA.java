@@ -1,17 +1,18 @@
 package com.revature.model;
 
-public class UserBankAccount {
+public class UserBA {
 	
 	private double amount;
 	private String name;
+	private String password;
 	//private String bankID;
 	
-	public UserBankAccount() {
+	public UserBA() {
 		amount = 0.0;
 		name = "User";
 	}
 	
-	public UserBankAccount(String name, double amount) {
+	public UserBA(String name, String password, double amount) {
 		this.amount = amount;
 		this.name = name;
 	}
