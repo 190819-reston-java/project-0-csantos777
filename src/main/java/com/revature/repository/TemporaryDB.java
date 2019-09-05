@@ -8,7 +8,11 @@ public class TemporaryDB {
 	
 	TemporaryDB() {
 		database = new LinkedList<UserBA>();
-		database.add(new UserBA("Tammy","EEEFFFF",100000.00));
-		database.add(new UserBA("Evan","AAAAA",70000.00));
+		addUserBA("Tammy","EEEFFFF",100000.00);
+		addUserBA("Evan","AAAAA",70000.00);
+	}
+	
+	public void addUserBA(String name, String password, double amount) {
+		database.add(new UserBA(name,password,amount));
 	}
 }
