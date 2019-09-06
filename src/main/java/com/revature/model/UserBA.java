@@ -10,6 +10,7 @@ public class UserBA {
 	public UserBA() {
 		amount = 0.0;
 		name = "User";
+		password = "1234";
 	}
 	
 	public UserBA(String name, String password, double amount) {

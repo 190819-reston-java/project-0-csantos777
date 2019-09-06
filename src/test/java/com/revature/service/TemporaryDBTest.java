@@ -18,6 +18,11 @@ public class TemporaryDBTest {
 	@Test
 	public void searchCurrentUser() {
 		UserBA example = new UserBA("Tammy","EEEFFFF",100000.00);
+		
+		UserBA found = ins.getUserBA("Tammy");
+		
+		assertEquals(example.getName(),found.getName());
+		assertEquals(example.getAmount(),found.getAmount(), 0.01);
 		// assert that the example object is the same as the object retrieved
 		// using the getUserBA method.
 	}
