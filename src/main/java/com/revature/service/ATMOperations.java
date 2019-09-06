@@ -32,11 +32,10 @@ public class ATMOperations {
 	}
 
 	public static double withdrawMoney(double balance) {
-		double temp = currBalance - balance;
-		if (temp < 0.0)
+		if (balance > currBalance)
 			throw new NegativeBalanceException();
 		else
-			return temp;
+			return currBalance -= balance;
 		
 	}
 }

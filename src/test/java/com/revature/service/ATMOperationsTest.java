@@ -4,6 +4,8 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import com.revature.exception.NegativeBalanceException;
+
 public class ATMOperationsTest {
 
 	@Test
@@ -20,6 +22,15 @@ public class ATMOperationsTest {
 				ATMOperations.setCurrBalance(orig);		
 		ATMOperations.withdrawMoney(50.50);
 		assertEquals(49.50,ATMOperations.getCurrBalance(),0.01);
+	}
+	
+	@Test (expected = NegativeBalanceException.class)
+	public void excessBalanceToWithdraw() {
+		double orig = 25.00;
+		ATMOperations.setCurrBalance(orig);		
+		ATMOperations.withdrawMoney(30);
+		
+		assertEquals(-5.00,ATMOperations.getCurrBalance(),0.01);
 	}
 
 }
