@@ -5,18 +5,24 @@ import com.revature.model.*;
 
 public class TemporaryDB {
 	private static List<UserBA> database;
+	private static int index;
 	
-	TemporaryDB() {
+	public TemporaryDB() {
+		index = 0;
 		database = new ArrayList<UserBA>();
 		addUserBA("Tammy","EEEFFFF",100000.00);
 		addUserBA("Evan","AAAAA",70000.00);
 	}
 	
-	public void addUserBA(String name, String password, double amount) {
+	public static void addUserBA(String name, String password, double amount) {
 		database.add(new UserBA(name,password,amount));
 	}
 	
-	public UserBA getUserBA(String name) throws NullPointerException {
+	public static void addUserBA(UserBA newUser) {
+		database.add(newUser);
+	}
+	
+	public static UserBA getUserBA(String name) throws NullPointerException {
 		for (UserBA a : database) {
 			if (a.getName().equals(name))
 				return a;
@@ -24,8 +30,16 @@ public class TemporaryDB {
 		return null;
 	}
 	
-	public void updateUserBA(UserBA user) {
+	public static void updateUserBA(UserBA user) {
 		UserBA temp = getUserBA(user.getName());
 		temp.setName(user.getName());
+	}
+	
+	public static String statusOFDB() {
+		String stmt = "Database [ ";
+		for (UserBA e : database) {
+			stmt += "User: Name=" + e.getName() + " Amount=$" + e.getAmount() + " ";
+		}
+		return stmt + "]";
 	}
 }

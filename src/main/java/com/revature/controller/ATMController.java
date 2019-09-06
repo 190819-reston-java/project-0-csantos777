@@ -3,6 +3,8 @@ package com.revature.controller;
 //import java.io.Console;
 import java.util.Scanner;
 
+import com.revature.repository.TemporaryDB;
+
 
 public class ATMController {
 	
@@ -10,6 +12,9 @@ public class ATMController {
 	// this variable does not need an object to be used.
 	
 	public static void start() {
+		
+		TemporaryDB db = new TemporaryDB();
+		
 		System.out.println("Welcome to the ATM.\n" + 
 				"Please sign in to your account.\n" + 
 				"----------------------------------------");
@@ -23,6 +28,8 @@ public class ATMController {
 		String password = inputs.nextLine();
 		
 		System.out.println("Welcome: " + username);
+		
+		System.out.println(TemporaryDB.statusOFDB());
 		
 		// insert verification class function, which will verify if the user is in the database.
 		/*

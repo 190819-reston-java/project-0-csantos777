@@ -14,6 +14,7 @@ public class UserBA {
 	
 	public UserBA(String name, String password, double amount) {
 		this.amount = amount;
+		this.password = password;
 		this.name = name;
 	}
 
