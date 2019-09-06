@@ -1,5 +1,7 @@
 package com.revature.service;
 
+import com.revature.exception.NegativeBalanceException;
+
 public class ATMOperations {
 	
 	static double currBalance;
@@ -16,11 +18,25 @@ public class ATMOperations {
 		 */
 	}
 	
+	//test method
+	public static double getCurrBalance() {
+		return currBalance;
+	}
+
+	public static void setCurrBalance(double currBalance) {
+		ATMOperations.currBalance = currBalance;
+	}
+	
 	public static double depositMoney(double balance) {
 		return currBalance += balance;
 	}
-	
+
 	public static double withdrawMoney(double balance) {
-		return currBalance -= balance;
+		double temp = currBalance - balance;
+		if (temp < 0.0)
+			throw new NegativeBalanceException();
+		else
+			return temp;
+		
 	}
 }
