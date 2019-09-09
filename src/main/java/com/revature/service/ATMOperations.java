@@ -1,12 +1,19 @@
 package com.revature.service;
 
 import com.revature.exception.NegativeBalanceException;
+import com.revature.model.UserBA;
+import com.revature.repository.TemporaryDB;
 
 public class ATMOperations {
 	
 	static double currBalance;
 	
-	public static void verification() {
+	public static boolean verification(String name) {
+		
+		//UserBA ver = getUserBA(name);
+		
+		//return (name.equals(getUserBA(name).getName())));
+		
 		/* 
 		 * 1. goto repository
 		 * 2. use BufferReader to read names from .txt file for time being
@@ -16,6 +23,7 @@ public class ATMOperations {
 		 * 4a. if not, return to controller.
 		 * 
 		 */
+		return false;
 	}
 	
 	//test method

@@ -1,7 +1,7 @@
 package com.revature.repository;
 
 import java.util.*;
-import com.revature.model.*;
+import com.revature.model.UserBA;
 
 public class TemporaryDB {
 	private static List<UserBA> database;
@@ -23,16 +23,27 @@ public class TemporaryDB {
 	}
 	
 	public static UserBA getUserBA(String name) throws NullPointerException {
-		for (UserBA a : database) {
-			if (a.getName().equals(name))
-				return a;
+		for (int a = 0; a < database.size(); ++a) {
+			if (database.get(a).getName().equals(name)) {
+				index = a;
+				return database.get(a);
+			}
 		}
 		return null;
 	}
 	
+	public static int getUserBAIndex(String name) throws NullPointerException {
+		for (int a = 0; a < database.size(); ++a) {
+			if (database.get(a).getName().equals(name)) {
+				return a;
+			}
+		}
+		return 0;
+	}
+	
 	public static void updateUserBA(UserBA user) {
-		UserBA temp = getUserBA(user.getName());
-		temp.setName(user.getName());
+		database.get(getUserBAIndex(user.getName())).setName(user.getName());
+		//database.get(getUserBAIndex(user.getName())).setPassword(user.getPassword());
 	}
 	
 	public static String statusOFDB() {

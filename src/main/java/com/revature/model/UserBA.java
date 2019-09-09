@@ -1,11 +1,11 @@
 package com.revature.model;
+import java.security.SecureRandom;
 
 public class UserBA {
 	
 	private double amount;
 	private String name;
 	private String password;
-	//private String bankID;
 	
 	public UserBA() {
 		amount = 0.0;
