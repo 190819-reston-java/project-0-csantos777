@@ -8,9 +8,10 @@ public class ATMOperations {
 	
 	static double currBalance;
 	
-	public static boolean verification(String name) {
+	public static boolean verification(String name, String password) {
 		
-		//UserBA ver = getUserBA(name);
+		UserBA temp = TemporaryDB.getUserBA(name);
+		return (temp.getName().equals(name) && temp.getPassword().equals(password)) ? true : false;
 		
 		//return (name.equals(getUserBA(name).getName())));
 		
@@ -23,7 +24,7 @@ public class ATMOperations {
 		 * 4a. if not, return to controller.
 		 * 
 		 */
-		return false;
+		//return false;
 	}
 	
 	//test method

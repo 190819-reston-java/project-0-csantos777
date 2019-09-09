@@ -5,10 +5,8 @@ import com.revature.model.UserBA;
 
 public class TemporaryDB {
 	private static List<UserBA> database;
-	private static int index;
 	
-	public TemporaryDB() {
-		index = 0;
+	static {
 		database = new ArrayList<UserBA>();
 		addUserBA("Tammy","EEEFFFF",100000.00);
 		addUserBA("Evan","AAAAA",70000.00);
@@ -25,7 +23,6 @@ public class TemporaryDB {
 	public static UserBA getUserBA(String name) throws NullPointerException {
 		for (int a = 0; a < database.size(); ++a) {
 			if (database.get(a).getName().equals(name)) {
-				index = a;
 				return database.get(a);
 			}
 		}

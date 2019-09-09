@@ -13,8 +13,6 @@ public class ATMController {
 	
 	public static void start() {
 		
-		TemporaryDB db = new TemporaryDB();
-		
 		System.out.println("Welcome to the ATM.\n" + 
 				"Please sign in to your account.\n" + 
 				"----------------------------------------");
