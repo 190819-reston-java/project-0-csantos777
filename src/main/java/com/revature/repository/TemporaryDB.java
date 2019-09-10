@@ -8,7 +8,7 @@ public class TemporaryDB {
 	
 	static {
 		database = new ArrayList<UserBA>();
-		addUserBA("Tammy","EEEFFFF",100000.00);
+		addUserBA("Tammy","EEF",100000.00);
 		addUserBA("Evan","AAAAA",70000.00);
 	}
 	

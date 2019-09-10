@@ -1,9 +1,13 @@
 package com.revature.controller;
 
+import java.util.InputMismatchException;
 //import java.io.Console;
 import java.util.Scanner;
 
 import com.revature.repository.TemporaryDB;
+import com.revature.service.ATMOperations;
+import com.revature.exception.NegativeBalanceException;
+import com.revature.model.UserBA;
 
 
 public class ATMController {
@@ -13,31 +17,35 @@ public class ATMController {
 	
 	public static void start() {
 		
+		String username = "";
+		String password = "";
+
 		System.out.println("Welcome to the ATM.\n" + 
 				"Please sign in to your account.\n" + 
 				"----------------------------------------");
-		
 		// possible area to implement a try-catch exception.
-		
-		System.out.println("User name: ");
-		String username = inputs.nextLine();
-		
-		System.out.println("Password, unobscured until further notice...");
-		String password = inputs.nextLine();
-		
-		System.out.println("Welcome: " + username);
-		
-		System.out.println(TemporaryDB.statusOFDB());
+			System.out.println("User name: ");
+			username = inputs.nextLine();
+			
+			System.out.println("Password, unobscured until further notice...");
+			password = inputs.nextLine();
+			
+			System.out.println("Welcome: " + username);
+			
+			System.out.println(TemporaryDB.statusOFDB());
 		
 		// insert verification class function, which will verify if the user is in the database.
 		/*
 		 * if (verifyClass == true)
 		 * 		call menu()
 		 */
-		
+			
+		if (ATMOperations.verification(username, password)) {
+			menu(TemporaryDB.getUserBA(username));
+		}
 	}
 	
-	public static void menu() {
+	public static void menu(UserBA user) {
 		int select = 0;
 		System.out.println("What would you like to do?\n" +
 				"\t1. Make a deposit to account.\n" + 
@@ -46,16 +54,30 @@ public class ATMController {
 		select = inputs.nextInt();
 		switch (select) {
 			case 1:
-				System.out.println("How much?");
-				// call function that takes care of money input,
-				// that very function will be the one to call the functions from ATMOperations
+				System.out.println("How much? Current balance is: $" + user.getAmount());
+				
+				try {
+					ATMOperations.depositMoney(inputs.nextDouble(), user);
+					System.out.println("Your balance is now $" + user.getAmount());
+				} catch (InputMismatchException e) {
+					e.printStackTrace();
+				}
 				break;
 			case 2:
-				// same as above
+				System.out.println("How much? Current balance is: $" + user.getAmount());
+				
+				try {
+					ATMOperations.depositMoney(inputs.nextDouble(), user);
+					System.out.println("Your balance is now $" + user.getAmount());
+				} catch (NegativeBalanceException e) {
+					e.printStackTrace();
+				} catch (InputMismatchException e) {
+					e.printStackTrace();
+				}
 				break;
 			case 3:
-				// call function that will end session with the user.
-				// this will end the function here and there.
+				System.out.println("Goodbye.");
+				System.exit(0);
 				break;
 			default: 
 				System.out.println("Not a valid option, try again.");

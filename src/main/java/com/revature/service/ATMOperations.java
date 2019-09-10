@@ -11,6 +11,9 @@ public class ATMOperations {
 	public static boolean verification(String name, String password) {
 		
 		UserBA temp = TemporaryDB.getUserBA(name);
+		
+		//System.out.println(temp);
+		
 		return (temp.getName().equals(name) && temp.getPassword().equals(password)) ? true : false;
 		
 		//return (name.equals(getUserBA(name).getName())));
@@ -36,7 +39,7 @@ public class ATMOperations {
 		ATMOperations.currBalance = currBalance;
 	}
 	
-	public static double depositMoney(double balance) {
+	/*public static double depositMoney(double balance) {
 		return currBalance += balance;
 	}
 
@@ -45,6 +48,18 @@ public class ATMOperations {
 			throw new NegativeBalanceException();
 		else
 			return currBalance -= balance;
+		
+	}*/
+	
+	public static void depositMoney(double balance, UserBA user) {
+		user.setAmount(balance += user.getAmount());
+	}
+	
+	public static void withdrawMoney(double balance, UserBA user) {
+		if (balance > user.getAmount())
+			throw new NegativeBalanceException();
+		else
+			user.setAmount(-1*(balance -= user.getAmount()));
 		
 	}
 }
