@@ -1,6 +1,6 @@
 package com.revature.service;
 
-import com.revature.exception.NegativeBalanceException;
+import com.revature.exception.*;
 import com.revature.model.UserBA;
 import com.revature.repository.TemporaryDB;
 
@@ -12,22 +12,10 @@ public class ATMOperations {
 		
 		UserBA temp = TemporaryDB.getUserBA(name);
 		
-		//System.out.println(temp);
-		
-		return (temp.getName().equals(name) && temp.getPassword().equals(password)) ? true : false;
-		
-		//return (name.equals(getUserBA(name).getName())));
-		
-		/* 
-		 * 1. goto repository
-		 * 2. use BufferReader to read names from .txt file for time being
-		 * 2a. or use PostgreSQL database
-		 * 3. Find using binarySearch
-		 * 4. return User object if found.
-		 * 4a. if not, return to controller.
-		 * 
-		 */
-		//return false;
+		if (temp == null)
+			throw new WrongLoginException();
+		else
+			return (temp.getName().equals(name) && temp.getPassword().equals(password)) ? true : false;
 	}
 	
 	//test method
