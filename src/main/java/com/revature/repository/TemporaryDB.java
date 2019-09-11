@@ -8,11 +8,11 @@ public class TemporaryDB implements DatabaseUserBA {
 	
 	static {
 		database = new ArrayList<UserAcc>();
-		addUserBA("Tammy","EEF",100000.00);
-		addUserBA("Evan","AAAAA",70000.00);
+		addUserAcc("Tammy","EEF",100000.00);
+		addUserAcc("Evan","AAAAA",70000.00);
 	}
 	
-	public static void addUserBA(String name, String password, double amount) {
+	public static void addUserAcc(String name, String password, double amount) {
 		database.add(new UserAcc(name,password,amount));
 	}
 	
@@ -46,7 +46,7 @@ public class TemporaryDB implements DatabaseUserBA {
 	public static String getBankAccountsToDisplay() {
 		String stmt = "Database [ ";
 		for (UserAcc e : database) {
-			stmt += "User: Name=" + e.getName() + " Amount=$" + e.getAmount() + " ";
+			stmt += "User: Name=" + e.getName() + " Amount=$" + e.getBalance() + " ";
 		}
 		return stmt + "]";
 	}

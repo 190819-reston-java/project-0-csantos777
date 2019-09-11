@@ -54,21 +54,21 @@ public class ATMController {
 			int select = inputs.nextInt();
 			switch (select) {
 				case 1:
-					System.out.println("How much? Current balance is: $" + user.getAmount());
+					System.out.println("How much? Current balance is: $" + user.getBalance());
 					
 					try {
 						ATMOperations.depositMoney(inputs.nextDouble(), user);
-						System.out.println("Your balance is now $" + user.getAmount());
+						System.out.println("Your balance is now $" + user.getBalance());
 					} catch (InputMismatchException e) {
 						e.printStackTrace();
 					}
 					break;
 				case 2:
-					System.out.println("How much? Current balance is: $" + user.getAmount());
+					System.out.println("How much? Current balance is: $" + user.getBalance());
 					
 					try {
 						ATMOperations.depositMoney(inputs.nextDouble(), user);
-						System.out.println("Your balance is now $" + user.getAmount());
+						System.out.println("Your balance is now $" + user.getBalance());
 					} catch (NegativeBalanceException e) {
 						e.printStackTrace();
 					} catch (InputMismatchException e) {

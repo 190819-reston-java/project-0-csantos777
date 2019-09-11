@@ -23,7 +23,8 @@ public class UserAcc {
 		country = "";
 	}
 	
-	public UserAcc(String name, String password) {
+	public UserAcc(String name, String password, double amount) {
+		bankAcc = new BankAcc(amount);
 		this.password = password;
 		this.address = address;
 		this.city = city;
@@ -46,6 +47,14 @@ public class UserAcc {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	
+	public void setBalance(double balance) {
+		bankAcc.setBalance(balance);
+	}
+	
+	public double getBalance() {
+		return bankAcc.getBalance();
 	}
 
 	@Override

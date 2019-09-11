@@ -40,14 +40,14 @@ public class ATMOperations {
 	}*/
 	
 	public static void depositMoney(double balance, UserAcc user) {
-		user.setAmount(balance += user.getAmount());
+		user.setBalance(balance += user.getBalance());
 	}
 	
 	public static void withdrawMoney(double balance, UserAcc user) {
-		if (balance > user.getAmount())
+		if (balance > user.getBalance())
 			throw new NegativeBalanceException();
 		else
-			user.setAmount(-1*(balance -= user.getAmount()));
+			user.setBalance(-1*(balance -= user.getBalance()));
 		
 	}
 }

@@ -5,29 +5,28 @@ public class BankAcc {
 	private double balance;
 	private int accNumber;
 	
-	BankAcc() {
+	protected BankAcc() {
 		balance = 0.0;
 		accNumber = 0;
 	}
 	
-	BankAcc(double balance, int accNumber) {
+	protected BankAcc(double balance) {
 		this.balance = balance;
-		this.accNumber = accNumber;
 	}
 
-	public double getBalance() {
+	protected double getBalance() {
 		return balance;
 	}
 
-	public void setBalance(double balance) {
+	protected void setBalance(double balance) {
 		this.balance = balance;
 	}
 
-	public int getAccNumber() {
+	protected int getAccNumber() {
 		return accNumber;
 	}
 
-	public void setAccNumber(int accNumber) {
+	protected void setAccNumber(int accNumber) {
 		this.accNumber = accNumber;
 	}
 
