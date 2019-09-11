@@ -23,22 +23,13 @@ public class UserAcc {
 		country = "";
 	}
 	
-	public UserAcc(String name, String password, double amount) {
-		this.amount = amount;
+	public UserAcc(String name, String password) {
 		this.password = password;
 		this.address = address;
 		this.city = city;
 		this.state = state;
 		this.zipcode = 
 		this.name = name;
-	}
-
-	public double getAmount() {
-		return amount;
-	}
-
-	public void setAmount(double amount) {
-		this.amount = amount;
 	}
 
 	public String getName() {
