@@ -10,7 +10,7 @@ import java.util.Map;
 /*
  * This is only a draft.
  */
-public class ActualDB {
+public class ActualDB implements DatabaseUserBA {
 private static Connection conn = null;
 	
 	static Connection getConnection() {
@@ -41,10 +41,8 @@ private static Connection conn = null;
 		return conn;
 	}
 	
-	public HashMap<Integer, UserBA> getBankAccounts() {
+	public static void getBankAccountsToDisplay() {
 		HashMap<Integer, UserBA> map = new HashMap<Integer, UserBA>();
-		
-		return map;
 	}
 	
 	

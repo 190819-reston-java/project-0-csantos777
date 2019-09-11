@@ -3,7 +3,7 @@ package com.revature.repository;
 import java.util.*;
 import com.revature.model.UserBA;
 
-public class TemporaryDB {
+public class TemporaryDB implements DatabaseUserBA {
 	private static List<UserBA> database;
 	
 	static {
@@ -43,7 +43,7 @@ public class TemporaryDB {
 		//database.get(getUserBAIndex(user.getName())).setPassword(user.getPassword());
 	}
 	
-	public static String statusOFDB() {
+	public static String getBankAccountsToDisplay() {
 		String stmt = "Database [ ";
 		for (UserBA e : database) {
 			stmt += "User: Name=" + e.getName() + " Amount=$" + e.getAmount() + " ";

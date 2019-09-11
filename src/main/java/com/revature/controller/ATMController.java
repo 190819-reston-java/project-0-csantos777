@@ -47,11 +47,11 @@ public class ATMController {
 	}
 	
 	public static void menu(UserBA user) {
-		int select = inputs.nextInt();
 			System.out.println("What would you like to do?\n" +
 					"\t1. Make a deposit to account.\n" + 
 					"\t2. Withdraw from account.\n" + 
 					"\t3. Signout.\n");
+			int select = inputs.nextInt();
 			switch (select) {
 				case 1:
 					System.out.println("How much? Current balance is: $" + user.getAmount());

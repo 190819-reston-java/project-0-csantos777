@@ -3,11 +3,21 @@ package com.revature.repository;
 import com.revature.model.UserBA;
 
 public interface DatabaseUserBA {
-
-	void updateUserBA(UserBA user);
 	
-	String statusOFDB();
+	static String getBankAccountsToDisplay() {
+		return "";
+	}
 	
-	UserBA getUserBA(String name);
+	static UserBA getUserBA(String name) {
+		return null;
+	}
+	
+	static void addUserBA(UserBA newUser) {
+		
+	}
+	
+	static void updateUserBA(UserBA user) {
+		
+	}
 	
 }
