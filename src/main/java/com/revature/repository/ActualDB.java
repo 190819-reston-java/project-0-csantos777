@@ -11,9 +11,9 @@ import java.util.Map;
  * This is only a draft.
  */
 public class ActualDB implements DatabaseUserBA {
-private static Connection conn = null;
 	
 	static Connection getConnection() {
+		Connection conn = null;
 		try {
 			//We'll write some boilerplate to work with Properties
 			Properties props = new Properties();
@@ -41,9 +41,47 @@ private static Connection conn = null;
 		return conn;
 	}
 	
-	public static void getBankAccountsToDisplay() {
-		HashMap<Integer, UserBA> map = new HashMap<Integer, UserBA>();
+	public static UserBA getUserBA(String firstName, String lastName) {
+		UserBA user = null;
+		try (Connection conn = getConnection()) {
+			final String sql = "SELECT * FROM users WHERE first_name = ? AND last_name = ?";
+			try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+				stmt.setString(1, firstName);
+				stmt.setString(2, lastName);
+				if (stmt.execute()) {
+					try (ResultSet rs = stmt.executeQuery()) {
+						rs.getString("first_name");
+					}
+				}
+			}
+			
+		} catch (SQLException e) {
+			
+		}
+		
+		return user;
 	}
+	
+	/*public static void getBankAccountsToDisplay() {
+		HashMap<Integer, UserBA> map = new HashMap<Integer, UserBA>();
+		
+		try {
+			conn = getConnection();
+			
+			String sql = "SELECT * FROM BankATM.users";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close(); 
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+	}*/
 	
 	
 	

@@ -6,6 +6,7 @@ public class UserBA {
 	private double amount;
 	private String name;
 	private String password;
+	private String address;
 	
 	public UserBA() {
 		amount = 0.0;

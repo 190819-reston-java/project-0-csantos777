@@ -4,20 +4,12 @@ import com.revature.model.UserBA;
 
 public interface DatabaseUserBA {
 	
-	static String getBankAccountsToDisplay() {
-		return "";
-	}
+	static String getBankAccountsToDisplay() {return "";}
 	
-	static UserBA getUserBA(String name) {
-		return null;
-	}
+	static UserBA getUserBA(String name) {return null;}
 	
-	static void addUserBA(UserBA newUser) {
-		
-	}
+	static void addUserBA(UserBA newUser) {}
 	
-	static void updateUserBA(UserBA user) {
-		
-	}
+	static void updateUserBA(UserBA user) {}
 	
 }
