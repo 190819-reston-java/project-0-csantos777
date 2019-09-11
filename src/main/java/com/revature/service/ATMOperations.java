@@ -1,7 +1,7 @@
 package com.revature.service;
 
 import com.revature.exception.*;
-import com.revature.model.UserBA;
+import com.revature.model.UserAcc;
 import com.revature.repository.TemporaryDB;
 
 public class ATMOperations {
@@ -10,7 +10,7 @@ public class ATMOperations {
 	
 	public static boolean verification(String name, String password) {
 		
-		UserBA temp = TemporaryDB.getUserBA(name);
+		UserAcc temp = TemporaryDB.getUserBA(name);
 		
 		if (temp == null)
 			throw new WrongLoginException();
@@ -39,11 +39,11 @@ public class ATMOperations {
 		
 	}*/
 	
-	public static void depositMoney(double balance, UserBA user) {
+	public static void depositMoney(double balance, UserAcc user) {
 		user.setAmount(balance += user.getAmount());
 	}
 	
-	public static void withdrawMoney(double balance, UserBA user) {
+	public static void withdrawMoney(double balance, UserAcc user) {
 		if (balance > user.getAmount())
 			throw new NegativeBalanceException();
 		else

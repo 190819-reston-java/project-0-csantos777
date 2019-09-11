@@ -41,8 +41,8 @@ public class ActualDB implements DatabaseUserBA {
 		return conn;
 	}
 	
-	public static UserBA getUserBA(String firstName, String lastName) {
-		UserBA user = null;
+	public static UserAcc getUserBA(String firstName, String lastName) {
+		UserAcc user = null;
 		try (Connection conn = getConnection()) {
 			final String sql = "SELECT * FROM users WHERE first_name = ? AND last_name = ?";
 			try (PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -60,6 +60,10 @@ public class ActualDB implements DatabaseUserBA {
 		}
 		
 		return user;
+	}
+	
+	private static UserAcc makeUserAcc(ResultSet rs) throws SQLException {
+		return new UserAcc();
 	}
 	
 	/*public static void getBankAccountsToDisplay() {

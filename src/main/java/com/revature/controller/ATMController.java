@@ -8,7 +8,7 @@ import com.revature.repository.TemporaryDB;
 import com.revature.service.ATMOperations;
 import com.revature.exception.NegativeBalanceException;
 import com.revature.exception.WrongLoginException;
-import com.revature.model.UserBA;
+import com.revature.model.UserAcc;
 
 
 public class ATMController {
@@ -46,7 +46,7 @@ public class ATMController {
 
 	}
 	
-	public static void menu(UserBA user) {
+	public static void menu(UserAcc user) {
 			System.out.println("What would you like to do?\n" +
 					"\t1. Make a deposit to account.\n" + 
 					"\t2. Withdraw from account.\n" + 

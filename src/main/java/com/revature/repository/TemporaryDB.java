@@ -1,26 +1,26 @@
 package com.revature.repository;
 
 import java.util.*;
-import com.revature.model.UserBA;
+import com.revature.model.UserAcc;
 
 public class TemporaryDB implements DatabaseUserBA {
-	private static List<UserBA> database;
+	private static List<UserAcc> database;
 	
 	static {
-		database = new ArrayList<UserBA>();
+		database = new ArrayList<UserAcc>();
 		addUserBA("Tammy","EEF",100000.00);
 		addUserBA("Evan","AAAAA",70000.00);
 	}
 	
 	public static void addUserBA(String name, String password, double amount) {
-		database.add(new UserBA(name,password,amount));
+		database.add(new UserAcc(name,password,amount));
 	}
 	
-	public static void addUserBA(UserBA newUser) {
+	public static void addUserBA(UserAcc newUser) {
 		database.add(newUser);
 	}
 	
-	public static UserBA getUserBA(String name) throws NullPointerException {
+	public static UserAcc getUserBA(String name) throws NullPointerException {
 		for (int a = 0; a < database.size(); ++a) {
 			if (database.get(a).getName().equals(name)) {
 				return database.get(a);
@@ -38,14 +38,14 @@ public class TemporaryDB implements DatabaseUserBA {
 		return 0;
 	}
 	
-	public static void updateUserBA(UserBA user) {
+	public static void updateUserBA(UserAcc user) {
 		database.get(getUserBAIndex(user.getName())).setName(user.getName());
 		//database.get(getUserBAIndex(user.getName())).setPassword(user.getPassword());
 	}
 	
 	public static String getBankAccountsToDisplay() {
 		String stmt = "Database [ ";
-		for (UserBA e : database) {
+		for (UserAcc e : database) {
 			stmt += "User: Name=" + e.getName() + " Amount=$" + e.getAmount() + " ";
 		}
 		return stmt + "]";

@@ -1,7 +1,7 @@
 package com.revature.service;
 
 import static org.junit.Assert.*;
-import com.revature.model.UserBA;
+import com.revature.model.UserAcc;
 
 import org.junit.Test;
 
@@ -11,7 +11,7 @@ public class ATMOperationsTest {
 
 	@Test
 	public void depositToBalance() {
-		UserBA test = new UserBA("ASDF", "TEte", 100.00);
+		UserAcc test = new UserAcc("ASDF", "TEte", 100.00);
 		
 		ATMOperations.depositMoney(75, test);
 		assertEquals(175.00,test.getAmount(),0.01);
@@ -19,7 +19,7 @@ public class ATMOperationsTest {
 	
 	@Test
 	public void withdrawFromBalance() {	
-		UserBA test = new UserBA("ASDF", "TEte", 100.00);
+		UserAcc test = new UserAcc("ASDF", "TEte", 100.00);
 		
 		ATMOperations.withdrawMoney(75, test);
 		assertEquals(25.00,test.getAmount(),0.01);
@@ -27,7 +27,7 @@ public class ATMOperationsTest {
 	
 	@Test (expected = NegativeBalanceException.class)
 	public void excessBalanceToWithdraw() {
-		UserBA test = new UserBA("ASDF", "TEte", 100.00);
+		UserAcc test = new UserAcc("ASDF", "TEte", 100.00);
 		
 		ATMOperations.withdrawMoney(125, test);
 		
