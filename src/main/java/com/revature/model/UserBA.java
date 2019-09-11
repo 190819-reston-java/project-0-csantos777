@@ -1,5 +1,5 @@
 package com.revature.model;
-import java.security.SecureRandom;
+import java.security.SecureRandom; // to use on passwords...
 
 public class UserBA {
 	
