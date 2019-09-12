@@ -4,11 +4,14 @@ import java.sql.*;
 import java.util.Properties;
 import com.revature.model.*;
 import java.io.IOException;
+import com.revature.service.StreamCloser;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-
+/*
+ * This is only a draft.
+ */
 public class ActualDB implements DatabaseUserBA {
 	
 	static Connection getConnection() {
@@ -104,16 +107,8 @@ public class ActualDB implements DatabaseUserBA {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			try {
-				conn.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-			try {
-				stmt.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+			StreamCloser.close(conn);
+			StreamCloser.close(stmt);
 		}
 	}
 	
@@ -135,16 +130,8 @@ public class ActualDB implements DatabaseUserBA {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			try {
-				conn.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-			try {
-				stmt.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+			StreamCloser.close(conn);
+			StreamCloser.close(stmt);
 		}
 	}
 	
@@ -168,16 +155,8 @@ public class ActualDB implements DatabaseUserBA {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			try {
-				conn.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-			try {
-				stmt.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+			StreamCloser.close(conn);
+			StreamCloser.close(stmt);
 		}
 	}
 	
