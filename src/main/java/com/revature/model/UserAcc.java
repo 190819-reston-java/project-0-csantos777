@@ -36,7 +36,7 @@ public class UserAcc {
 	}
 	
 	public UserAcc(String username, String name, String password, String address,
-			String city, String state, String zipcode) {
+			String city, String state, String zipcode, String country) {
 			
 		this.name = name;
 		this.password = password;
@@ -45,6 +45,7 @@ public class UserAcc {
 		this.state = state;
 		this.zipcode = zipcode;
 		this.username = username;
+		this.country = country;
 	}
 
 	public String getName() {

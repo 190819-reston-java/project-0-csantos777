@@ -9,12 +9,14 @@ CREATE TABLE users (
 	city VARCHAR(20) NOT NULL,
 	country VARCHAR(20) NOT NULL,
 	state VARCHAR(15) NULL,
-	zipcode VARCHAR(5) NULL
+	zipcode VARCHAR(5) null,
+	user_password varchar(120) not null
 	
 );
 
-CREATE TABLE account_numbers (
+CREATE TABLE accounts (
 
+	account_name varchar(15),
 	account_number INTEGER,
 	balance NUMERIC CHECK(balance >= 0.0),
 	current_username VARCHAR(12) UNIQUE,
@@ -22,7 +24,7 @@ CREATE TABLE account_numbers (
 	
 );
 
-drop schema account_numbers;
+alter table users add column password varchar(120);
 
 --create table BankATM.trnsactn_history (
 

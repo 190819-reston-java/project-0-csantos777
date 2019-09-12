@@ -1,10 +1,12 @@
 package com.revature.repository;
 
+import java.util.ArrayList;
+
 import com.revature.model.UserAcc;
 
 public interface DatabaseUserBA {
 	
-	static String getBankAccountsToDisplay() {return "";}
+	static ArrayList<UserAcc> getBankAccountsToDisplay() {return null;}
 	
 	static UserAcc getUserAcc(String name) {return null;}
 	
@@ -12,6 +14,6 @@ public interface DatabaseUserBA {
 	
 	static void updateUserAcc(UserAcc user) {}
 	
-	static void deleteUserAcc(UserAcc user) {}
+	static void deleteUserAcc(String username) {}
 	
 }
