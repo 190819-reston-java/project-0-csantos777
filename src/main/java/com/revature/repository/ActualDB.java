@@ -41,29 +41,32 @@ public class ActualDB implements DatabaseUserBA {
 		return conn;
 	}
 	
-	public static UserAcc getUserBA(String firstName, String lastName) {
+	public static UserAcc getUserAcc(String username) {
 		UserAcc user = null;
 		try (Connection conn = getConnection()) {
-			final String sql = "SELECT * FROM users WHERE first_name = ? AND last_name = ?";
+			final String sql = "SELECT * FROM users WHERE username = ?;";
 			try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-				stmt.setString(1, firstName);
-				stmt.setString(2, lastName);
+				stmt.setString(1, username);
 				if (stmt.execute()) {
 					try (ResultSet rs = stmt.executeQuery()) {
-						rs.getString("first_name");
+						user = makeUserAccInstance(rs);
 					}
 				}
 			}
-			
 		} catch (SQLException e) {
-			
+			e.printStackTrace();
 		}
-		
 		return user;
 	}
 	
-	private static UserAcc makeUserAcc(ResultSet rs) throws SQLException {
-		return new UserAcc();
+	private static UserAcc makeUserAccInstance(ResultSet rs) throws SQLException {
+		return new UserAcc(rs.getString("username"), 
+				(rs.getString("first_name") + " " + rs.getString("last_name")),
+				rs.getString("password"), 
+				rs.getString("address"),
+				rs.getString("city"), 
+				rs.getString("state"), 
+				rs.getString("zipcode"));
 	}
 	
 	/*public static void getBankAccountsToDisplay() {

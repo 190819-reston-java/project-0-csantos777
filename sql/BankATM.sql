@@ -22,6 +22,8 @@ CREATE TABLE account_numbers (
 	
 );
 
+drop schema account_numbers;
+
 --create table BankATM.trnsactn_history (
 
 	--constraint a

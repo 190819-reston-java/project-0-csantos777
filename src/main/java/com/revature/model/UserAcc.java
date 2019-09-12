@@ -13,7 +13,6 @@ public class UserAcc {
 	private String state;
 	private String country;
 	private ArrayList<BankAcc> bankAccs;
-	private static boolean multiple = false;
 	
 	public UserAcc() {
 		bankAccs = new ArrayList<BankAcc>();
@@ -37,9 +36,7 @@ public class UserAcc {
 	}
 	
 	public UserAcc(String username, String name, String password, String address,
-			String city, String state, String zipcode, double amount) {
-		
-		bankAccs = new ArrayList<BankAcc>();
+			String city, String state, String zipcode) {
 			
 		this.name = name;
 		this.password = password;
@@ -48,7 +45,6 @@ public class UserAcc {
 		this.state = state;
 		this.zipcode = zipcode;
 		this.username = username;
-		bankAccs.add(new BankAcc(amount));
 	}
 
 	public String getName() {

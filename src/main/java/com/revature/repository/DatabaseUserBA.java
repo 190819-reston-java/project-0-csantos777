@@ -6,10 +6,12 @@ public interface DatabaseUserBA {
 	
 	static String getBankAccountsToDisplay() {return "";}
 	
-	static UserAcc getUserBA(String name) {return null;}
+	static UserAcc getUserAcc(String name) {return null;}
 	
-	static void addUserBA(UserAcc newUser) {}
+	static void addUserAcc(UserAcc newUser) {}
 	
-	static void updateUserBA(UserAcc user) {}
+	static void updateUserAcc(UserAcc user) {}
+	
+	static void deleteUserAcc(UserAcc user) {}
 	
 }
