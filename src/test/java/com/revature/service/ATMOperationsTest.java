@@ -14,7 +14,7 @@ public class ATMOperationsTest {
 		UserAcc test = new UserAcc("ASDF", "TEte", 100.00);
 		
 		ATMOperations.depositMoney(75, test);
-		assertEquals(175.00,test.getAmount(),0.01);
+		assertEquals(175.00,test.getBalance(),0.01);
 	} 
 	
 	@Test
@@ -22,7 +22,7 @@ public class ATMOperationsTest {
 		UserAcc test = new UserAcc("ASDF", "TEte", 100.00);
 		
 		ATMOperations.withdrawMoney(75, test);
-		assertEquals(25.00,test.getAmount(),0.01);
+		assertEquals(25.00,test.getBalance(),0.01);
 	}
 	
 	@Test (expected = NegativeBalanceException.class)

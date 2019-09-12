@@ -4,10 +4,12 @@ public class BankAcc {
 	
 	private double balance;
 	private int accNumber;
+	private String name;
 	
 	protected BankAcc() {
 		balance = 0.0;
 		accNumber = 0;
+		name = "";
 	}
 	
 	protected BankAcc(double balance) {
@@ -29,10 +31,19 @@ public class BankAcc {
 	protected void setAccNumber(int accNumber) {
 		this.accNumber = accNumber;
 	}
+	
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
 
 	@Override
 	public String toString() {
-		return "BankAcc [balance=" + balance + ", accNumber=" + accNumber + "]";
+		return "BankAcc [balance=" + balance + ", accNumber=" + accNumber + ", name=" + name + "]";
 	}
 	
 	

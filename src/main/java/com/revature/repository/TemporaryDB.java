@@ -16,13 +16,13 @@ public class TemporaryDB implements DatabaseUserBA {
 		database.add(new UserAcc(name,password,amount));
 	}
 	
-	public static void addUserBA(UserAcc newUser) {
+	public static void addUserAcc(UserAcc newUser) {
 		database.add(newUser);
 	}
 	
 	public static UserAcc getUserBA(String name) throws NullPointerException {
 		for (int a = 0; a < database.size(); ++a) {
-			if (database.get(a).getName().equals(name)) {
+			if (database.get(a).getUsername().equals(name)) {
 				return database.get(a);
 			}
 		}
@@ -31,7 +31,7 @@ public class TemporaryDB implements DatabaseUserBA {
 	
 	public static int getUserBAIndex(String name) throws NullPointerException {
 		for (int a = 0; a < database.size(); ++a) {
-			if (database.get(a).getName().equals(name)) {
+			if (database.get(a).getUsername().equals(name)) {
 				return a;
 			}
 		}
@@ -39,14 +39,14 @@ public class TemporaryDB implements DatabaseUserBA {
 	}
 	
 	public static void updateUserBA(UserAcc user) {
-		database.get(getUserBAIndex(user.getName())).setName(user.getName());
-		//database.get(getUserBAIndex(user.getName())).setPassword(user.getPassword());
+		database.get(getUserBAIndex(user.getUsername())).setName(user.getUsername());
+		//database.get(getUserBAIndex(user.getUsername())).setPassword(user.getPassword());
 	}
 	
 	public static String getBankAccountsToDisplay() {
 		String stmt = "Database [ ";
 		for (UserAcc e : database) {
-			stmt += "User: Name=" + e.getName() + " Amount=$" + e.getBalance() + " ";
+			stmt += "User: Name=" + e.getUsername() + " Amount=$" + e.getBalance() + " ";
 		}
 		return stmt + "]";
 	}
