@@ -5,50 +5,22 @@ import java.util.Properties;
 import com.revature.model.*;
 import java.io.IOException;
 import com.revature.service.StreamCloser;
+import  com.revature.service.ConnectorUtil;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.security.SecureRandom;
 /*
  * This is only a draft.
  */
 public class ActualDB implements DatabaseUserBA {
 	
-	static Connection getConnection() {
-		Connection conn = null;
-		try {
-			//We'll write some boilerplate to work with Properties
-			Properties props = new Properties();
-			//The following lines just ensure we find connection.properties
-			//regardless of how our project is built:
-			ClassLoader loader = Thread.currentThread().getContextClassLoader();
-			props.load(loader.getResourceAsStream("connection.properties"));
-			
-			//All we've done is set these values to the values found in
-			// connection.properties
-			String url = props.getProperty("url");
-			String username = props.getProperty("username");
-			String password = props.getProperty("password");
-			
-			//How to actually make connections with jdbc
-			conn = DriverManager.getConnection(url, username, password);
-			System.out.println("===CONNECTED===");
-			
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
-		return conn;
-	}
-	
-	public static UserAcc getUserAcc(String username) {
+	public static UserAcc logUserAccIn(String username, String password) {
 		UserAcc user = null;
-		try (Connection conn = getConnection()) {
-			final String sql = "SELECT * FROM users WHERE username = ?;";
+		try (Connection conn = ConnectorUtil.getConnection()) {
+			final String sql = "SELECT * FROM users WHERE username = ? AND user_password = ?;";
 			try (PreparedStatement stmt = conn.prepareStatement(sql)) {
 				stmt.setString(1, username);
+				stmt.setString(2, encryptPassword(password));
 				if (stmt.execute()) {
 					try (ResultSet rs = stmt.executeQuery()) {
 						while (rs.next()) {
@@ -63,9 +35,13 @@ public class ActualDB implements DatabaseUserBA {
 		return user;
 	}
 	
+	private static String encryptPassword(String password) {
+		return password;
+	}
+	
 	public static ArrayList<UserAcc> getBankAccountsToDisplay() {
 		ArrayList<UserAcc> list = new ArrayList<UserAcc>();
-		try (Connection conn = getConnection()) {
+		try (Connection conn = ConnectorUtil.getConnection()) {
 			final String sql = "SELECT * FROM users;";
 			try (PreparedStatement stmt = conn.prepareStatement(sql)) {
 				if (stmt.execute()) {
@@ -92,7 +68,7 @@ public class ActualDB implements DatabaseUserBA {
 		String[] name = u.getName().split(" ");
 		
 		try {
-			conn = getConnection();
+			conn = ConnectorUtil.getConnection();
 			stmt = conn.prepareStatement(sql);
 			stmt.setString(1, u.getUsername());
 			stmt.setString(2, name[0]);
@@ -102,7 +78,7 @@ public class ActualDB implements DatabaseUserBA {
 			stmt.setString(6, u.getCountry());
 			stmt.setString(7, u.getState());
 			stmt.setString(8, u.getZipcode());
-			stmt.setString(9, u.getPassword());
+			stmt.setString(9, encryptPassword(u.getPassword()));
 			stmt.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -119,7 +95,7 @@ public class ActualDB implements DatabaseUserBA {
 		PreparedStatement stmt = null;
 		Connection conn = null;
 		try {
-			conn = getConnection();
+			conn = ConnectorUtil.getConnection();
 			stmt = conn.prepareStatement(sql);
 			stmt.setString(1,u.getAddress());
 			stmt.setString(2, u.getCity());
@@ -148,7 +124,7 @@ public class ActualDB implements DatabaseUserBA {
 		PreparedStatement stmt = null;
 		
 		try {
-			conn = getConnection();
+			conn = ConnectorUtil.getConnection();
 			stmt = conn.prepareStatement(sql[0]);
 			stmt.setString(1, username);
 			stmt.execute();

@@ -3,29 +3,25 @@ package com.revature.service;
 import com.revature.exception.*;
 import com.revature.model.UserAcc;
 import com.revature.repository.TemporaryDB;
+import com.revature.repository.ActualDB;
 
-public class ATMOperations {
+public class BankAccOperations {
 	
-	static double currBalance;
-	
-	public static boolean verification(String name, String password) {
+	/*public static int verification(String username, String password) {
 		
-		UserAcc temp = TemporaryDB.getUserBA(name);
+		//UserAcc temp = TemporaryDB.getUserBA(name);
 		
-		if (temp == null)
+		UserAcc tempo = ActualDB.getUserAcc(username);
+		
+		if (tempo == null)
+			throw new NonexistentUserException();
+		else if (!tempo.getPassword().equals(password) || password == null)
+			throw new WrongLoginException();
+		else if (!tempo.getName().equals(username) || username == null)
 			throw new WrongLoginException();
 		else
-			return (temp.getName().equals(name) && temp.getPassword().equals(password)) ? true : false;
-	}
-	
-	//test method
-	public static double getCurrBalance() {
-		return currBalance;
-	}
-
-	public static void setCurrBalance(double currBalance) {
-		ATMOperations.currBalance = currBalance;
-	}
+			return 0;
+	}*/
 	
 	/*public static double depositMoney(double balance) {
 		return currBalance += balance;
@@ -41,6 +37,10 @@ public class ATMOperations {
 	
 	public static void depositMoney(double balance, UserAcc user) {
 		user.setBalance(balance += user.getBalance());
+	}
+	
+	public static void depositMoney(UserAcc user) {
+	//	final String sql 
 	}
 	
 	public static void withdrawMoney(double balance, UserAcc user) {

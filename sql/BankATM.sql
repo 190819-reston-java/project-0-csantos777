@@ -16,15 +16,17 @@ CREATE TABLE users (
 
 CREATE TABLE accounts (
 
+	current_username VARCHAR(12) UNIQUE PRIMARY KEY,
 	account_name varchar(15),
 	account_number INTEGER,
 	balance NUMERIC CHECK(balance >= 0.0),
-	current_username VARCHAR(12) UNIQUE,
 	FOREIGN KEY (current_username) REFERENCES users(username)
 	
 );
 
-alter table users add column password varchar(120);
+drop table accounts;
+
+--alter table users add column password varchar(120);
 
 --create table BankATM.trnsactn_history (
 

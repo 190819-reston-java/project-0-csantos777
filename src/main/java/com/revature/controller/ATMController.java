@@ -4,8 +4,9 @@ import java.util.InputMismatchException;
 //import java.io.Console;
 import java.util.Scanner;
 
+import com.revature.repository.ActualDB;
 import com.revature.repository.TemporaryDB;
-import com.revature.service.ATMOperations;
+import com.revature.service.BankAccOperations;
 import com.revature.exception.NegativeBalanceException;
 import com.revature.exception.WrongLoginException;
 import com.revature.model.UserAcc;
@@ -33,13 +34,14 @@ public class ATMController {
 			password = inputs.nextLine();
 			
 			
-			if (ATMOperations.verification(username, password)) {
-				System.out.println("Welcome: " + username);
-				menu(TemporaryDB.getUserBA(username));
-			}
-			else {
+			//if (BankAccOperations.verification(username, password) == 0) {
+				UserAcc curr = ActualDB.logUserAccIn(username, password);
+				System.out.println("Welcome: " + curr.getName());
+				menu(curr);
+			//}
+			//else {
 				System.out.println("User doesn't exist or you entered wrong password.");
-			}
+			//}
 		} catch (WrongLoginException e) {
 			e.printStackTrace();
 		}
@@ -57,7 +59,7 @@ public class ATMController {
 					System.out.println("How much? Current balance is: $" + user.getBalance());
 					
 					try {
-						ATMOperations.depositMoney(inputs.nextDouble(), user);
+						BankAccOperations.depositMoney(inputs.nextDouble(), user);
 						System.out.println("Your balance is now $" + user.getBalance());
 					} catch (InputMismatchException e) {
 						e.printStackTrace();
@@ -67,7 +69,7 @@ public class ATMController {
 					System.out.println("How much? Current balance is: $" + user.getBalance());
 					
 					try {
-						ATMOperations.depositMoney(inputs.nextDouble(), user);
+						BankAccOperations.depositMoney(inputs.nextDouble(), user);
 						System.out.println("Your balance is now $" + user.getBalance());
 					} catch (NegativeBalanceException e) {
 						e.printStackTrace();

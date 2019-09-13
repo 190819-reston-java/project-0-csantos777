@@ -7,13 +7,13 @@ import org.junit.Test;
 
 import com.revature.exception.NegativeBalanceException;
 
-public class ATMOperationsTest {
+public class BankAccOperationsTest {
 
 	@Test
 	public void depositToBalance() {
 		UserAcc test = new UserAcc("ASDF", "TEte", 100.00);
 		
-		ATMOperations.depositMoney(75, test);
+		BankAccOperations.depositMoney(75, test);
 		assertEquals(175.00,test.getBalance(),0.01);
 	} 
 	
@@ -21,7 +21,7 @@ public class ATMOperationsTest {
 	public void withdrawFromBalance() {	
 		UserAcc test = new UserAcc("ASDF", "TEte", 100.00);
 		
-		ATMOperations.withdrawMoney(75, test);
+		BankAccOperations.withdrawMoney(75, test);
 		assertEquals(25.00,test.getBalance(),0.01);
 	}
 	
@@ -29,9 +29,9 @@ public class ATMOperationsTest {
 	public void excessBalanceToWithdraw() {
 		UserAcc test = new UserAcc("ASDF", "TEte", 100.00);
 		
-		ATMOperations.withdrawMoney(125, test);
+		BankAccOperations.withdrawMoney(125, test);
 		
-		assertEquals(-25.00,ATMOperations.getCurrBalance(),0.01);
+		assertEquals(-25.00,0.01);
 	}
 
 }
