@@ -59,7 +59,7 @@ public class ATMController {
 					System.out.println("How much? Current balance is: $" + user.getBalance());
 					
 					try {
-						BankAccOperations.depositMoney(inputs.nextDouble(), user);
+						//BankAccOperations.depositMoney(inputs.nextDouble(), user);
 						System.out.println("Your balance is now $" + user.getBalance());
 					} catch (InputMismatchException e) {
 						e.printStackTrace();
@@ -69,7 +69,7 @@ public class ATMController {
 					System.out.println("How much? Current balance is: $" + user.getBalance());
 					
 					try {
-						BankAccOperations.depositMoney(inputs.nextDouble(), user);
+						//BankAccOperations.depositMoney(inputs.nextDouble(), user);
 						System.out.println("Your balance is now $" + user.getBalance());
 					} catch (NegativeBalanceException e) {
 						e.printStackTrace();

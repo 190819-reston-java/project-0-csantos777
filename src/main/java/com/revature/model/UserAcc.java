@@ -120,6 +120,15 @@ public class UserAcc {
 		return bankAccs.get(0).getBalance();
 	}
 	
+	public void setBankAccProperties(String name, int accNumber) {
+		bankAccs.get(0).setName(name);
+		bankAccs.get(0).setAccNumber(accNumber);
+	}
+	
+	public String displayBankAcc() {
+		return bankAccs.get(0).toString();
+	}
+	
 	@Override
 	public String toString() {
 		return "UserAcc [name=" + name + ", username=" + username + ", password=" + password + ", address=" + address
