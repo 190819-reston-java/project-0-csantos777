@@ -4,6 +4,8 @@ import java.util.InputMismatchException;
 //import java.io.Console;
 import java.util.Scanner;
 
+import org.apache.log4j.Logger;
+
 import com.revature.repository.ActualDB;
 import com.revature.repository.TemporaryDB;
 import com.revature.service.BankAccOperations;
@@ -14,82 +16,101 @@ import com.revature.model.UserAcc;
 
 public class ATMController {
 	
-	static Scanner inputs = new Scanner(System.in);
+	private static Scanner inputs = new Scanner(System.in);
+	public static Logger logger = Logger.getLogger(ATMController.class);
 	// this variable does not need an object to be used.
 	
 	public static void start() {
+
+		logger.info("ATM starts");
+		System.out.println("Welcome to the ATM.\n");
 		
-		String username = "";
-		String password = "";
-
-		System.out.println("Welcome to the ATM.\n" + 
-				"Please sign in to your account.\n" + 
-				"----------------------------------------");
-
 		try {
-			System.out.println("User name: ");
-			username = inputs.nextLine();
-			
-			System.out.println("Password, unobscured until further notice...");
-			password = inputs.nextLine();
-			
-			
-			//if (BankAccOperations.verification(username, password) == 0) {
-				UserAcc curr = ActualDB.logUserAccIn(username, password);
-				System.out.println("Welcome: " + curr.getName());
-				menu(curr);
-			//}
+			UserAcc curr = ActualDB.logUserAccIn(userInfo());
+			System.out.println("Welcome: " + curr.getName());
+			menu(curr);
+		} catch (WrongLoginException e) {
+			e.printStackTrace();
+		} catch (InputMismatchException e) {
+			e.printStackTrace();
+		}
 			//else {
 				//System.out.println("User doesn't exist or you entered wrong password.");
 			//}
-		} catch (WrongLoginException e) {
-			e.printStackTrace();
-		}
 
 	}
 	
-	public static void menu(UserAcc user) {
-		System.out.println("What would you like to do?\n" +
-				"\t1. Make a deposit to account.\n" + 
-				"\t2. Withdraw from account.\n" + 
-				"\t3. Signout.\n");
-		int select = inputs.nextInt();
-		while (select < 3) {
-			switch (select) {
-				case 1:
-					System.out.println("How much to deposit? Current balance is: $" 
-							+ BankAccOperations.getBalance(user.getUsername()));
-						
-					try {
-						BankAccOperations.depositMoney(inputs.nextDouble(), user);
-						System.out.println("Your balance is now $" + /*user.getBalance()*/
-								BankAccOperations.getBalance(user.getUsername()));
-					} catch (InputMismatchException e) {
-						e.printStackTrace();
-					}
-					break;
-				case 2:
-					System.out.println("How much to withdraw? Current balance is: $" 
-							+ BankAccOperations.getBalance(user.getUsername())/*user.getBalance()*/);
-					
-					try {
-						BankAccOperations.withdrawMoney(inputs.nextDouble(), user);
-						System.out.println("Your balance is now $" + 
-								BankAccOperations.getBalance(user.getUsername()));
-							//user.getBalance());
-					} catch (NegativeBalanceException e) {
-						e.printStackTrace();
-					} catch (InputMismatchException e) {
-						e.printStackTrace();
-					}
-					break;
-				case 3:
-					System.out.println("Goodbye.");
-					System.exit(0);
-					break;
-				default:
-					System.out.println("Not a valid option, try again.");
-			}
+	public static UserAcc userInfo() {
+		
+		UserAcc info = new UserAcc();
+		
+		System.out.println("Please sign in to your account.\n" + 
+			"----------------------------------------");
+		try {
+			System.out.println("User name: ");
+			info.setUsername(inputs.nextLine());
+			inputs.nextLine();
+			
+			System.out.println("Password, unobscured until further notice...");
+			info.setPassword(inputs.nextLine());
+			inputs.nextLine();
+		} catch (InputMismatchException e) {
+			e.printStackTrace();
 		}
+		return info;
 	}
+	
+	public static void menu(UserAcc user) {
+		char quit = ' ';
+		while (quit != 'q') {
+			System.out.println("What would you like to do?\n" +
+					"\t1. Make a deposit to account.\n" + 
+					"\t2. Withdraw from account.\n" + 
+					"\t3. Signout.\n" + 
+					"Press 4. to quit.");
+			int select = inputs.nextInt();
+				switch (select) {
+					case 1:
+						System.out.println("How much to deposit? Current balance is: $" 
+								+ BankAccOperations.getBalance(user.getUsername()));
+							
+						try {
+							BankAccOperations.depositMoney(inputs.nextDouble(), user);
+							System.out.println("Your balance is now $" + /*user.getBalance()*/
+									BankAccOperations.getBalance(user.getUsername()));
+						} catch (InputMismatchException e) {
+							e.printStackTrace();
+						}
+						break;
+					case 2:
+						System.out.println("How much to withdraw? Current balance is: $" 
+								+ BankAccOperations.getBalance(user.getUsername())/*user.getBalance()*/);
+						
+						try {
+							BankAccOperations.withdrawMoney(inputs.nextDouble(), user);
+							System.out.println("Your balance is now $" + 
+									BankAccOperations.getBalance(user.getUsername()));
+								//user.getBalance());
+						} catch (NegativeBalanceException e) {
+							e.printStackTrace();
+						} catch (InputMismatchException e) {
+							e.printStackTrace();
+						}
+						break;
+					case 3:
+						System.out.println("Goodbye.");
+						user = null;
+						userInfo();
+						break;
+					case 4:
+						System.out.println("Goodbye, for real.");
+						quit = 'q';
+						break;
+					default:
+						System.out.println("Not a valid option, try again.");
+					select = 0;
+				}
+			}
+		System.exit(0);
+		}
 }

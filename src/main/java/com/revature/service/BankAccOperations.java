@@ -46,7 +46,7 @@ public class BankAccOperations {
 	}*/
 	
 	public static double getBalance(String username) {
-		final String sql = "SELECT balance FROM accounts WHERE username IN " + 
+		final String sql = "SELECT balance FROM accounts WHERE username_id IN " + 
 				"(SELECT username FROM users WHERE username = ?);";
 		
 		double bal = 0.0;
@@ -71,7 +71,7 @@ public class BankAccOperations {
 	}
 	
 	public static BankAcc getBankAcc(UserAcc user) {
-		final String sql = "SELECT * FROM accounts WHERE username IN " + 
+		final String sql = "SELECT * FROM accounts WHERE username_id IN " + 
 				"(SELECT username FROM users WHERE username = ?);";
 		
 		BankAcc ba = null;
@@ -133,7 +133,7 @@ public class BankAccOperations {
 			conn = ConnectorUtil.getConnection();
 			stmt = conn.prepareStatement(
 					"UPDATE accounts SET balance = balance + ? " + 
-					"WHERE username IN " + 
+					"WHERE username_id IN " + 
 					"(SELECT username FROM users WHERE username = ?);");
 			//stmt.setDouble(1, (user.getBalance()+balance));
 			stmt.setDouble(1, deposit);
@@ -159,7 +159,7 @@ public class BankAccOperations {
 				conn = ConnectorUtil.getConnection();
 				stmt = conn.prepareStatement(
 						"UPDATE accounts SET balance = balance - ? " + 
-						"WHERE username IN " + 
+						"WHERE username_id IN " + 
 						"(SELECT username FROM users WHERE username = ?);");
 				//stmt.setDouble(1, (-1*(balance-user.getBalance())));
 				stmt.setDouble(1, withdraw);

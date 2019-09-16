@@ -1,5 +1,4 @@
 package com.revature.model;
-import java.security.SecureRandom; // to use on passwords...
 import java.util.ArrayList;
 
 public class UserAcc {
@@ -26,13 +25,20 @@ public class UserAcc {
 		country = "";
 	}
 	
-	public UserAcc(String username, String password, double amount, BankAcc bankAcc) {
+	public UserAcc(String username, String name, String password) {
 		
 		bankAccs = new ArrayList<BankAcc>();
 			
 		this.password = password;
 		this.username = username;
-		bankAccs.add(bankAcc);
+		this.name = name;
+
+		address = "";
+		city = "";
+		zipcode = "";
+		state = "";
+		country = "";
+		
 	}
 	
 	public UserAcc(String username, String name, String password, String address,

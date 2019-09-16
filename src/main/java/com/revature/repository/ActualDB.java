@@ -14,13 +14,13 @@ import java.security.SecureRandom;
  */
 public class ActualDB implements DatabaseUserBA {
 	
-	public static UserAcc logUserAccIn(String username, String password) {
+	public static UserAcc logUserAccIn(UserAcc usr) {
 		UserAcc user = null;
 		try (Connection conn = ConnectorUtil.getConnection()) {
 			final String sql = "SELECT * FROM users WHERE username = ? AND user_password = ?;";
 			try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-				stmt.setString(1, username);
-				stmt.setString(2, encryptPassword(password));
+				stmt.setString(1, usr.getUsername());
+				stmt.setString(2, encryptPassword(usr.getPassword()));
 				if (stmt.execute()) {
 					try (ResultSet rs = stmt.executeQuery()) {
 						while (rs.next()) {
@@ -60,8 +60,8 @@ public class ActualDB implements DatabaseUserBA {
 	
 	public static void createUserAcc(UserAcc u) {
 		
-		final String sql = "INSERT INTO users(username,first_name,last_name," + 
-				"address,city,country,state,zipcode,user_password) VALUES(?,?,?,?,?,?,?,?,?);";
+		final String sql = "INSERT INTO users(username,first_name,last_name,user_password) " 
+							+ "VALUES(?,?,?,?);";
 		PreparedStatement stmt = null;
 		Connection conn = null;
 		
@@ -73,12 +73,55 @@ public class ActualDB implements DatabaseUserBA {
 			stmt.setString(1, u.getUsername());
 			stmt.setString(2, name[0]);
 			stmt.setString(3, name[1]);
-			stmt.setString(4, u.getAddress());
-			stmt.setString(5, u.getCity());
-			stmt.setString(6, u.getCountry());
-			stmt.setString(7, u.getState());
-			stmt.setString(8, u.getZipcode());
-			stmt.setString(9, encryptPassword(u.getPassword()));
+			stmt.setString(4, encryptPassword(u.getPassword()));
+			stmt.execute();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			StreamCloser.close(conn);
+			StreamCloser.close(stmt);
+		}
+	}
+	
+	public static void addUserAddress(UserAcc u) {
+		
+		final String sql = "INSERT INTO user_address(username_id,address,city,country,state,zipcode) " 
+							+ "VALUES(?,?,?,?,?,?);";
+		PreparedStatement stmt = null;
+		Connection conn = null;
+		
+		try {
+			conn = ConnectorUtil.getConnection();
+			stmt = conn.prepareStatement(sql);
+			stmt.setString(1, u.getUsername());
+			stmt.setString(2, u.getAddress());
+			stmt.setString(3, u.getCity());
+			stmt.setString(4, u.getCountry());
+			stmt.setString(5, u.getState());
+			stmt.setString(6, u.getZipcode());
+			stmt.execute();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			StreamCloser.close(conn);
+			StreamCloser.close(stmt);
+		}
+	}
+	
+	public static void updateUserAddress(UserAcc u) {
+		
+		final String sql = "UPDATE user_address SET address = ?, city = ?, " +
+				"state = ?, zipcode = ? WHERE username_id = ?;";
+		PreparedStatement stmt = null;
+		Connection conn = null;
+		try {
+			conn = ConnectorUtil.getConnection();
+			stmt = conn.prepareStatement(sql);
+			stmt.setString(1,u.getAddress());
+			stmt.setString(2, u.getCity());
+			stmt.setString(3, u.getState());
+			stmt.setString(4, u.getZipcode());
+			stmt.setString(5, u.getUsername());
 			stmt.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -90,18 +133,19 @@ public class ActualDB implements DatabaseUserBA {
 	
 	public static void updateUserAcc(UserAcc u) {
 		
-		final String sql = "UPDATE users SET address = ?, city = ?, " +
-				"state = ?, zipcode = ? WHERE username = ?;";
+		final String sql = "UPDATE users SET first_name = ?, last_name = ?, " +
+				"user_password = ? WHERE username = ?;";
 		PreparedStatement stmt = null;
 		Connection conn = null;
+		String[] name = u.getName().split(" ");
+		
 		try {
 			conn = ConnectorUtil.getConnection();
 			stmt = conn.prepareStatement(sql);
-			stmt.setString(1,u.getAddress());
-			stmt.setString(2, u.getCity());
-			stmt.setString(3, u.getState());
-			stmt.setString(4, u.getZipcode());
-			stmt.setString(5, u.getUsername());
+			stmt.setString(1, name[0]);
+			stmt.setString(2, name[1]);
+			stmt.setString(3, encryptPassword(u.getPassword()));
+			stmt.setString(4, u.getUsername());
 			stmt.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -147,12 +191,12 @@ public class ActualDB implements DatabaseUserBA {
 	private static UserAcc makeUserAccInstance(ResultSet rs) throws SQLException {
 		return new UserAcc(rs.getString("username"), 
 				(rs.getString("first_name") + " " + rs.getString("last_name")),
-				rs.getString("user_password"), 
+				rs.getString("user_password")/*, 
 				rs.getString("address"),
 				rs.getString("city"), 
 				rs.getString("state"), 
 				rs.getString("zipcode"),
-				rs.getString("country"));
+				rs.getString("country")*/);
 	}
 	
 	
