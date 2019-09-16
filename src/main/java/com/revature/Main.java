@@ -12,9 +12,9 @@ import com.revature.controller.ATMController;
 public class Main {
 
 	public static void main(String[] args) {
-		//ATMController.start();
+		ATMController.start();
 		
-		SecureRandom n = new SecureRandom();
-		System.out.println(n.getAlgorithm());
+		//SecureRandom n = new SecureRandom();
+		//System.out.println(n.getAlgorithm());
 	}
 }

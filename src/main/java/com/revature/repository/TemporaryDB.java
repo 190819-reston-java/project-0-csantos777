@@ -13,7 +13,7 @@ public class TemporaryDB implements DatabaseUserBA {
 	}
 	
 	public static void addUserAcc(String name, String password, double amount) {
-		database.add(new UserAcc(name,password,amount));
+	//	database.add(new UserAcc(name,password,amount));
 	}
 	
 	public static void addUserAcc(UserAcc newUser) {

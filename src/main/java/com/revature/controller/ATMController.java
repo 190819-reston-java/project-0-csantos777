@@ -40,7 +40,7 @@ public class ATMController {
 				menu(curr);
 			//}
 			//else {
-				System.out.println("User doesn't exist or you entered wrong password.");
+				//System.out.println("User doesn't exist or you entered wrong password.");
 			//}
 		} catch (WrongLoginException e) {
 			e.printStackTrace();
@@ -49,28 +49,34 @@ public class ATMController {
 	}
 	
 	public static void menu(UserAcc user) {
-			System.out.println("What would you like to do?\n" +
-					"\t1. Make a deposit to account.\n" + 
-					"\t2. Withdraw from account.\n" + 
-					"\t3. Signout.\n");
-			int select = inputs.nextInt();
+		System.out.println("What would you like to do?\n" +
+				"\t1. Make a deposit to account.\n" + 
+				"\t2. Withdraw from account.\n" + 
+				"\t3. Signout.\n");
+		int select = inputs.nextInt();
+		while (select < 3) {
 			switch (select) {
 				case 1:
-					System.out.println("How much? Current balance is: $" + user.getBalance());
-					
+					System.out.println("How much to deposit? Current balance is: $" 
+							+ BankAccOperations.getBalance(user.getUsername()));
+						
 					try {
-						//BankAccOperations.depositMoney(inputs.nextDouble(), user);
-						System.out.println("Your balance is now $" + user.getBalance());
+						BankAccOperations.depositMoney(inputs.nextDouble(), user);
+						System.out.println("Your balance is now $" + /*user.getBalance()*/
+								BankAccOperations.getBalance(user.getUsername()));
 					} catch (InputMismatchException e) {
 						e.printStackTrace();
 					}
 					break;
 				case 2:
-					System.out.println("How much? Current balance is: $" + user.getBalance());
+					System.out.println("How much to withdraw? Current balance is: $" 
+							+ BankAccOperations.getBalance(user.getUsername())/*user.getBalance()*/);
 					
 					try {
-						//BankAccOperations.depositMoney(inputs.nextDouble(), user);
-						System.out.println("Your balance is now $" + user.getBalance());
+						BankAccOperations.withdrawMoney(inputs.nextDouble(), user);
+						System.out.println("Your balance is now $" + 
+								BankAccOperations.getBalance(user.getUsername()));
+							//user.getBalance());
 					} catch (NegativeBalanceException e) {
 						e.printStackTrace();
 					} catch (InputMismatchException e) {
@@ -84,6 +90,6 @@ public class ATMController {
 				default:
 					System.out.println("Not a valid option, try again.");
 			}
-		
+		}
 	}
 }

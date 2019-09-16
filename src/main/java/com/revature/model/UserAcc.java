@@ -26,13 +26,13 @@ public class UserAcc {
 		country = "";
 	}
 	
-	public UserAcc(String username, String password, double amount) {
+	public UserAcc(String username, String password, double amount, BankAcc bankAcc) {
 		
 		bankAccs = new ArrayList<BankAcc>();
 			
 		this.password = password;
 		this.username = username;
-		bankAccs.add(new BankAcc(amount));
+		bankAccs.add(bankAcc);
 	}
 	
 	public UserAcc(String username, String name, String password, String address,

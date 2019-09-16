@@ -111,23 +111,31 @@ public class ActualDB implements DatabaseUserBA {
 		}
 	}
 	
-	
-	public static void deleteUserAcc(String username) {
+	public final static String deleteQuery(int opt) {
 		final String[] sql = {"DELETE FROM users WHERE username = ?",
 				"DELETE FROM accounts IN" + 
 				"(SELECT username FROM users WHERE username = ?);",
 					"DELETE FROM transaction_history IN " + 
 					"(SELECT username FROM accounts IN " +
 					"(SELECT username FROM users WHERE username = ?));"};
+		if (opt == 0)
+			return sql[opt];
+		else if (opt == 1)
+			return sql[opt];
+		else
+			return sql[opt];
+	}
+	
+	public static void deleteUserAcc(String username) {
 		
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		
 		try {
-			conn = ConnectorUtil.getConnection();
-			stmt = conn.prepareStatement(sql[0]);
+			conn = ConnectorUtil.getConnection() ;
+			stmt = conn.prepareStatement(deleteQuery(0));
 			stmt.setString(1, username);
-			stmt.execute();
+			stmt.executeQuery();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {

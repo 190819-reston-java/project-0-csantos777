@@ -8,6 +8,7 @@ import com.revature.model.UserAcc;
 import com.revature.repository.TemporaryDB;
 
 public class DatabaseUserDBTest {
+	/*
 	TemporaryDB ins = new TemporaryDB();
 	@Test
 	public void addNewUserToBank() {
@@ -48,5 +49,5 @@ public class DatabaseUserDBTest {
 	ActualDB.createUserAcc(nee);
 	list = ActualDB.getBankAccountsToDisplay();
 	System.out.println(list);*/
-	
+
 }

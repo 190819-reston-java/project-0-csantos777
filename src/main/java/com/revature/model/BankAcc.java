@@ -6,29 +6,35 @@ public class BankAcc {
 	private int accNumber;
 	private String name;
 	
-	protected BankAcc() {
+	public BankAcc() {
 		balance = 0.0;
 		accNumber = 0;
 		name = "";
 	}
 	
-	protected BankAcc(double balance) {
+	public BankAcc(String name, int accNumber, double balance) {
+		this.balance = balance;
+		this.accNumber = accNumber;
+		this.name = name;
+	}
+	
+	public BankAcc(double balance) {
 		this.balance = balance;
 	}
 
-	protected double getBalance() {
+	public double getBalance() {
 		return balance;
 	}
 
-	protected void setBalance(double balance) {
+	public void setBalance(double balance) {
 		this.balance = balance;
 	}
 
-	protected int getAccNumber() {
+	public int getAccNumber() {
 		return accNumber;
 	}
 
-	protected void setAccNumber(int accNumber) {
+	public void setAccNumber(int accNumber) {
 		this.accNumber = accNumber;
 	}
 	

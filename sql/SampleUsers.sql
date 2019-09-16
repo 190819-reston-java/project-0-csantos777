@@ -14,4 +14,10 @@ insert into accounts(current_username,account_name,account_number,balance)
 values('flack15','Checking',52659581,550.00);
 
 SELECT * FROM accounts WHERE current_username IN 
+(SELECT username FROM users);
+
+select * from users;
+select * from accounts;
+
+SELECT username FROM accounts WHERE username IN 
 (SELECT username FROM users WHERE username = 'reg242');

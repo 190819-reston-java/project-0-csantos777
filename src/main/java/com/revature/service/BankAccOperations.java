@@ -6,10 +6,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.revature.exception.*;
-import com.revature.model.UserAcc;
-import com.revature.service.ConnectorUtil;
+import com.revature.model.*;
 import com.revature.repository.TemporaryDB;
 import com.revature.repository.ActualDB;
+import com.revature.service.*;
 
 public class BankAccOperations {
 	
@@ -45,19 +45,47 @@ public class BankAccOperations {
 		user.setBalance(balance += user.getBalance());
 	}*/
 	
-	public static void getBankAcc(UserAcc user) {
-		final String sql = "SELECT * FROM accounts WHERE current_username IN " + 
+	public static double getBalance(String username) {
+		final String sql = "SELECT balance FROM accounts WHERE username IN " + 
 				"(SELECT username FROM users WHERE username = ?);";
+		
+		double bal = 0.0;
+		
+		try (Connection conn = ConnectorUtil.getConnection()) {
+			try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+				stmt.setString(1, username);
+				if (stmt.execute()) {
+					try (ResultSet rs = stmt.executeQuery()) {
+						while(rs.next())
+							bal = rs.getDouble("balance");
+					}
+					
+				}
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		// get a single user account here.
+		return bal;
+	}
+	
+	public static BankAcc getBankAcc(UserAcc user) {
+		final String sql = "SELECT * FROM accounts WHERE username IN " + 
+				"(SELECT username FROM users WHERE username = ?);";
+		
+		BankAcc ba = null;
+		
 		try (Connection conn = ConnectorUtil.getConnection()) {
 			try (PreparedStatement stmt = conn.prepareStatement(sql)) {
 				stmt.setString(1, user.getUsername());
 				if (stmt.execute()) {
 					try (ResultSet rs = stmt.executeQuery()) {
 						while (rs.next()) {
-							user.setBankAccProperties(
-									rs.getString("account_name"),
-									rs.getInt("account_number"));
-							user.setBalance(rs.getDouble("balance"));
+							//ba.setName(rs.getString("account_name"));
+							//ba.setAccNumber(rs.getInt("account_number"));
+							//ba.setBalance(rs.getDouble("balance"));
+							ba = createBankAccInstance(rs);
 						}
 					}
 					
@@ -67,38 +95,82 @@ public class BankAccOperations {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		// get a single user account here.
+		return ba;
 	}
 	
-	private final static String balanceQuery() {
-		return "UPDATE accounts SET balance = ? " + 
-				"WHERE current_username IN " + 
-				"(SELECT username FROM users WHERE username = ?);";
+	// creates BankAcc object, which will then be used in conjunction with the UserAcc
+	private static BankAcc createBankAccInstance(ResultSet rs) throws SQLException {
+		return new BankAcc(rs.getString("account_name"),
+							rs.getInt("account_number"),
+							rs.getDouble("balance"));
 	}
 	
-	public static void depositMoney(UserAcc user, double balance) {
+	public static void deleteBankAcc(String username) {
+		
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		
+		try {
+			conn = ConnectorUtil.getConnection() ;
+			stmt = conn.prepareStatement(ActualDB.deleteQuery(1));
+			stmt.setString(1, username);
+			stmt.executeQuery();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			StreamCloser.close(conn);
+			StreamCloser.close(stmt);
+		}
+	}
+	
+	public static void depositMoney(double deposit, UserAcc user) {
 
-		try (Connection conn = ConnectorUtil.getConnection()) {
-			PreparedStatement stmt = conn.prepareStatement(balanceQuery());
-			stmt.setDouble(1, (user.getBalance()+balance));
+		PreparedStatement stmt = null;
+		Connection conn = null;
+		
+		try {
+			conn = ConnectorUtil.getConnection();
+			stmt = conn.prepareStatement(
+					"UPDATE accounts SET balance = balance + ? " + 
+					"WHERE username IN " + 
+					"(SELECT username FROM users WHERE username = ?);");
+			//stmt.setDouble(1, (user.getBalance()+balance));
+			stmt.setDouble(1, deposit);
 			stmt.setString(2, user.getUsername());
 			stmt.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			StreamCloser.close(conn);
+			StreamCloser.close(stmt);
 		}
 	}
 	
 	
-	public static void withdrawMoney(double balance, UserAcc user) {
-		if (balance > user.getBalance())
+	public static void withdrawMoney(double withdraw, UserAcc user) {
+		PreparedStatement stmt = null;
+		Connection conn = null;
+		
+		if (withdraw > getBalance(user.getUsername()))
 			throw new NegativeBalanceException();
 		else
-			try (Connection conn = ConnectorUtil.getConnection()) {
-				PreparedStatement stmt = conn.prepareStatement(balanceQuery());
-				stmt.setDouble(1, (-1*(balance-user.getBalance())));
+			try {
+				conn = ConnectorUtil.getConnection();
+				stmt = conn.prepareStatement(
+						"UPDATE accounts SET balance = balance - ? " + 
+						"WHERE username IN " + 
+						"(SELECT username FROM users WHERE username = ?);");
+				//stmt.setDouble(1, (-1*(balance-user.getBalance())));
+				stmt.setDouble(1, withdraw);
 				stmt.setString(2, user.getUsername());
 				stmt.execute();
 			} catch (SQLException e) {
 				e.printStackTrace();
+			} finally {
+				StreamCloser.close(conn);
+				StreamCloser.close(stmt);
 			}
+		
 	}
 }
