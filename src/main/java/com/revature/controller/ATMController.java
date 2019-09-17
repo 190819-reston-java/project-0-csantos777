@@ -22,7 +22,7 @@ public class ATMController {
 	
 	public static void start() {
 
-		logger.info("ATM starts");
+		logger.info("ATM starts, and will loop in this fashion.");
 		System.out.println("Welcome to the ATM.\n");
 		
 		try {
@@ -48,12 +48,10 @@ public class ATMController {
 			"----------------------------------------");
 		try {
 			System.out.println("User name: ");
-			info.setUsername(inputs.nextLine());
-			inputs.nextLine();
+			info.setUsername(inputs.next());
 			
 			System.out.println("Password, unobscured until further notice...");
-			info.setPassword(inputs.nextLine());
-			inputs.nextLine();
+			info.setPassword(inputs.next());
 		} catch (InputMismatchException e) {
 			e.printStackTrace();
 		}
@@ -64,12 +62,17 @@ public class ATMController {
 		char quit = ' ';
 		while (quit != 'q') {
 			System.out.println("What would you like to do?\n" +
+					"\t0. Display current balance." +
 					"\t1. Make a deposit to account.\n" + 
 					"\t2. Withdraw from account.\n" + 
 					"\t3. Signout.\n" + 
 					"Press 4. to quit.");
 			int select = inputs.nextInt();
 				switch (select) {
+					case 0:
+						System.out.println("Your current balance is: $" 
+								+ BankAccOperations.getBalance(user.getUsername()));
+						break;
 					case 1:
 						System.out.println("How much to deposit? Current balance is: $" 
 								+ BankAccOperations.getBalance(user.getUsername()));
@@ -99,11 +102,6 @@ public class ATMController {
 						break;
 					case 3:
 						System.out.println("Goodbye.");
-						user = null;
-						userInfo();
-						break;
-					case 4:
-						System.out.println("Goodbye, for real.");
 						quit = 'q';
 						break;
 					default:
@@ -111,6 +109,6 @@ public class ATMController {
 					select = 0;
 				}
 			}
-		System.exit(0);
+		start();
 		}
 }

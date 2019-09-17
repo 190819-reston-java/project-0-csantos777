@@ -12,7 +12,7 @@ import com.revature.repository.ActualDB;
 import com.revature.service.*;
 
 public class BankAccOperations {
-	
+
 	/*public static int verification(String username, String password) {
 		
 		//UserAcc temp = TemporaryDB.getUserBA(name);
