@@ -4,9 +4,6 @@ VALUES('csanders1','Charles','Sanders','asdf');
 insert into user_address(username_id,address,city,country,state,zipcode) 
 values ('csanders1','111 EEE ST.','Char','USA','Hawaii','33344');
 
-INSERT INTO users(username,first_name,last_name,address,city,country,zipcode,state,user_password) 
-VALUES('reg242','Ashley','Raulson','555 werte Rd.','Qert','USA','33346','Hawaii','qwerty');
-
 INSERT INTO users(username,first_name,last_name,user_password) 
 VALUES('flack15','Charles','Sanders','hjkl');
 

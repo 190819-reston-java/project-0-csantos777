@@ -25,7 +25,6 @@ public class ConnectorUtil {
 			
 			//How to actually make connections with jdbc
 			conn = DriverManager.getConnection(url, username, password);
-			System.out.println("Connection Sucessful.");
 			
 		} catch (IOException e) {
 			e.printStackTrace();

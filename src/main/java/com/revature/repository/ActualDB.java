@@ -38,6 +38,32 @@ public class ActualDB implements DatabaseUserBA {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		logger.debug(user);
+		return user;
+	}
+	
+	public static UserAcc getUserAddress(UserAcc u) {
+		UserAcc user = null;
+		try (Connection conn = ConnectorUtil.getConnection()) {
+			final String sql = "SELECT * FROM user_address WHERE username = ?;";
+			try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+				stmt.setString(1, u.getUsername());
+				if (stmt.execute()) {
+					try (ResultSet rs = stmt.executeQuery()) {
+						while (rs.next()) {
+							u.setAddress(rs.getString("address"));
+							u.setCity(rs.getString("city"));
+							u.setCountry(rs.getString("country"));
+							u.setState(rs.getString("state"));
+							u.setZipcode(rs.getString("zipcode"));
+						}
+					}
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		logger.debug(u);
 		return user;
 	}
 	

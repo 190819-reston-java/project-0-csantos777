@@ -57,10 +57,12 @@ public class ATMController {
 					info = verifyUser(inffo[0], inffo[1]);
 					if (info != null) 
 						menu(info);
-				} catch (WrongLoginException e) {
-					e.printStackTrace();
-				} catch (NonexistentUserException e) {
-					e.printStackTrace();
+				} /*catch (WrongLoginException e) {
+					System.out.println("Wrong password.");
+					//e.printStackTrace();
+				}*/ catch (NonexistentUserException e) {
+					System.out.println("User doesn't exist, as you put it.");
+					//e.printStackTrace();
 				}
 			} catch (InputMismatchException e) {
 				e.printStackTrace();
@@ -68,34 +70,17 @@ public class ATMController {
 		}
 	}
 	
-	/*public static void userRegister() {
-		String[] inffo = prompt();
-		
-		System.out.println("Enter first name.");
-		String firstName = inputs.next();
-		
-		System.out.println("Enter last name.");
-		String lastName = inputs.next();
-		
-		UserAcc first = new UserAcc(inffo[0], (firstName + lastName), inffo[1]);
-		
-		ActualDB.createUserAcc(first);
-		
-		System.out.println("How much would you like to enter?");
-		double answer = Double.parseDouble(inputs.next());
-		
-		
-		
-		
-	}*/
-	
 	
 	public static String[] prompt() {
 		System.out.println("User name: ");
 		String username = inputs.next();
 		
+		logger.trace("input: " + username);
+		
 		System.out.println("Password, unobscured until further notice...");
 		String password = inputs.next();
+		
+		logger.trace("input: " + password);
 		
 		return new String[] {username, password};
 		
@@ -103,6 +88,7 @@ public class ATMController {
 	
 	public static void menu(UserAcc user) {
 		char quit = ' ';
+		System.out.println("Welcome " + user.getName());
 		while (quit != 'q') {
 			System.out.println("What would you like to do?\n" +
 					"\t0. Display current balance.\n" +
@@ -123,11 +109,17 @@ public class ATMController {
 									+ BankAccOperations.getBalance(user.getUsername()));
 							logger.debug("Here is where the user deposits money.");
 							try {
-								BankAccOperations.depositMoney(Double.parseDouble(inputs.next()), user);
-								System.out.println("Your balance is now $" + /*user.getBalance()*/
+								double amt = Double.parseDouble(inputs.next());
+								if (amt < 0.0)
+									System.out.println("We're not withdrawing money here.");
+								else {
+									BankAccOperations.depositMoney(amt, user);
+									System.out.println("Your balance is now $" +
 										BankAccOperations.getBalance(user.getUsername()));
+								}
 							} catch (NumberFormatException e) {
-								e.printStackTrace();
+								System.out.println("Only decimal numbers for balance are accepted.");
+								//e.printStackTrace();
 								quit = 'n';
 							}
 							break;
@@ -136,17 +128,23 @@ public class ATMController {
 									+ BankAccOperations.getBalance(user.getUsername()));
 							try {
 								logger.debug("Here is where the database is called and the user withdraws money.");
-								BankAccOperations.withdrawMoney(Double.parseDouble(inputs.next()), user);
-								System.out.println("Your balance is now $" + 
+								double amt = Double.parseDouble(inputs.next());
+								if (amt < 0.0)
+									System.out.println("We're not depositing money here.");
+								else {
+									BankAccOperations.withdrawMoney(amt, user);
+									System.out.println("Your balance is now $" + 
 										BankAccOperations.getBalance(user.getUsername()));
-									//user.getBalance());
+								}
 							} catch (NegativeBalanceException e) {
 								logger.error("We have a user who attempted to withdraw more than they actually have.");
-								e.printStackTrace();
+								System.out.println("This ATM doesn't allow for overdrafts.");
+								//e.printStackTrace();
 								quit = 'n';
 							} catch (NumberFormatException e) {
+								System.out.println("Only decimal numbers for balance are accepted.");
 								logger.error("A user entered the wrong input.");
-								e.printStackTrace();
+								//e.printStackTrace();
 								quit = 'n';
 							}
 							break;
@@ -164,7 +162,8 @@ public class ATMController {
 						select = 0;
 						}
 					} catch (NumberFormatException e) {
-						e.printStackTrace();
+						System.out.println("Nothing except integers 0-4 are accepted.");
+						//e.printStackTrace();
 					}
 				}
 			}
