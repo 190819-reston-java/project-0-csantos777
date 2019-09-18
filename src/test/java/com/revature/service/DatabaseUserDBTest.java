@@ -8,18 +8,19 @@ import com.revature.model.UserAcc;
 import com.revature.repository.TemporaryDB;
 
 public class DatabaseUserDBTest {
-	/*
+	
 	TemporaryDB ins = new TemporaryDB();
 	@Test
 	public void addNewUserToBank() {
-		UserAcc example = new UserAcc("Ronald","123",45000);
+		UserAcc example = new UserAcc("Ronald","dfef wtwet","123");
 		TemporaryDB.addUserAcc(example);
 	}
 	
 	@Test
 	public void searchCurrentUser() {
-		UserAcc example = new UserAcc("Tammy","EEF",100000.00);
+		UserAcc example = new UserAcc("Tammy","werwe erterte","EEE");
 		
+		example.setBalance(100000.00);
 		UserAcc found = ins.getUserBA("Tammy");
 		
 		assertEquals(example.getName(),found.getName());

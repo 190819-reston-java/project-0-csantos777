@@ -8,12 +8,12 @@ public class TemporaryDB implements DatabaseUserBA {
 	
 	static {
 		database = new ArrayList<UserAcc>();
-		addUserAcc("Tammy","EEF",100000.00);
-		addUserAcc("Evan","AAAAA",70000.00);
+		addUserAcc("tam55","EEF","asdf wert");
+		addUserAcc("eva2","AAAAA","qwer sdfg");
 	}
 	
-	public static void addUserAcc(String name, String password, double amount) {
-	//	database.add(new UserAcc(name,password,amount));
+	public static void addUserAcc(String username, String password, String name) {
+		database.add(new UserAcc(username,password,name));
 	}
 	
 	public static void addUserAcc(UserAcc newUser) {

@@ -105,7 +105,7 @@ public class ATMController {
 		char quit = ' ';
 		while (quit != 'q') {
 			System.out.println("What would you like to do?\n" +
-					"\t0. Display current balance." +
+					"\t0. Display current balance.\n" +
 					"\t1. Make a deposit to account.\n" + 
 					"\t2. Withdraw from account.\n" + 
 					"\t3. Signout.\n" + 
@@ -116,11 +116,12 @@ public class ATMController {
 						case 0:
 							System.out.println("Your current balance is: $" 
 									+ BankAccOperations.getBalance(user.getUsername()));
+							logger.trace("The user checked balance, calling the database.");
 							break;
 						case 1:
 							System.out.println("How much to deposit? Current balance is: $" 
 									+ BankAccOperations.getBalance(user.getUsername()));
-								
+							logger.debug("Here is where the user deposits money.");
 							try {
 								BankAccOperations.depositMoney(Double.parseDouble(inputs.next()), user);
 								System.out.println("Your balance is now $" + /*user.getBalance()*/
@@ -132,9 +133,9 @@ public class ATMController {
 							break;
 						case 2:
 							System.out.println("How much to withdraw? Current balance is: $" 
-									+ BankAccOperations.getBalance(user.getUsername())/*user.getBalance()*/);
-							
+									+ BankAccOperations.getBalance(user.getUsername()));
 							try {
+								logger.debug("Here is where the database is called and the user withdraws money.");
 								BankAccOperations.withdrawMoney(Double.parseDouble(inputs.next()), user);
 								System.out.println("Your balance is now $" + 
 										BankAccOperations.getBalance(user.getUsername()));

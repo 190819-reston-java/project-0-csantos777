@@ -39,6 +39,8 @@ public class UserAcc {
 		state = "";
 		country = "";
 		
+		bankAccs.add(new BankAcc());
+		
 	}
 	
 	public UserAcc(String username, String name, String password, String address,

@@ -2,6 +2,10 @@ package com.revature.repository;
 
 import java.sql.*;
 import java.util.Properties;
+
+import org.apache.log4j.Logger;
+
+import com.revature.controller.ATMController;
 import com.revature.model.*;
 import java.io.IOException;
 import com.revature.service.StreamCloser;
@@ -13,6 +17,8 @@ import java.security.SecureRandom;
  * This is only a draft.
  */
 public class ActualDB implements DatabaseUserBA {
+	
+	public static Logger logger = Logger.getLogger(ATMController.class);
 	
 	public static UserAcc logUserAccIn(String username, String password) {
 		UserAcc user = null;
