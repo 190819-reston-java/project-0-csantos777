@@ -18,7 +18,7 @@ import java.security.SecureRandom;
  */
 public class ActualDB implements DatabaseUserBA {
 	
-	public static Logger logger = Logger.getLogger(ATMController.class);
+	public static Logger logger = Logger.getLogger(ActualDB.class);
 	
 	public static UserAcc logUserAccIn(String username, String password) {
 		UserAcc user = null;
