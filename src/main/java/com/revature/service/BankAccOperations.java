@@ -99,12 +99,50 @@ public class BankAccOperations {
 		return ba;
 	}
 	
+	/*public static List<BankAcc> getBankAccs(UserAcc user) {
+		final String sql = "SELECT * FROM accounts WHERE username_id IN " + 
+				"(SELECT username FROM users WHERE username = ?);";
+		
+		ArrayList<BankAcc> ba = null;
+		
+		try (Connection conn = ConnectorUtil.getConnection()) {
+			try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+				stmt.setString(1, user.getUsername());
+				if (stmt.execute()) {
+					try (ResultSet rs = stmt.executeQuery()) {
+						while (rs.next()) {
+							//ba.setName(rs.getString("account_name"));
+							//ba.setAccNumber(rs.getInt("account_number"));
+							//ba.setBalance(rs.getDouble("balance"));
+							ba = createBankAccInstance(rs);
+						}
+					}
+					
+				}
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		// get a single user account here.
+		return ba;
+	}*/
+	
 	// creates BankAcc object, which will then be used in conjunction with the UserAcc
 	private static BankAcc createBankAccInstance(ResultSet rs) throws SQLException {
 		return new BankAcc(rs.getString("account_name"),
 							rs.getInt("account_number"),
 							rs.getDouble("balance"));
 	}
+	
+	/*public static void createBankAcc(String userName, double amount) {
+		
+		try {
+			Connection conn = ConnectorUtil.getConnection();
+			PreparedStatement stmt = conn.prepareStatement(
+					"INSERT INTO accounts(username_id,");
+		}
+	}*/
 	
 	public static void deleteBankAcc(String username) {
 		

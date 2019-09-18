@@ -10,6 +10,7 @@ import com.revature.repository.ActualDB;
 import com.revature.repository.TemporaryDB;
 import com.revature.service.BankAccOperations;
 import com.revature.exception.NegativeBalanceException;
+import com.revature.exception.NonexistentUserException;
 import com.revature.exception.WrongLoginException;
 import com.revature.model.UserAcc;
 
@@ -25,37 +26,79 @@ public class ATMController {
 		logger.info("ATM starts, and will loop in this fashion.");
 		System.out.println("Welcome to the ATM.\n");
 		
-		try {
-			UserAcc curr = ActualDB.logUserAccIn(userInfo());
-			System.out.println("Welcome: " + curr.getName());
-			menu(curr);
-		} catch (WrongLoginException e) {
-			e.printStackTrace();
-		} catch (InputMismatchException e) {
-			e.printStackTrace();
-		}
-			//else {
-				//System.out.println("User doesn't exist or you entered wrong password.");
-			//}
+		userLogin();
 
 	}
 	
-	public static UserAcc userInfo() {
+	public static UserAcc verifyUser(String username, String password) {
 		
-		UserAcc info = new UserAcc();
+		int eval = ActualDB.verifyUser(username, password);
+		System.out.println(eval);
 		
+		if (eval == 0)
+			throw new NonexistentUserException();
+		else 
+			return ActualDB.logUserAccIn(username, password);
+	}
+	
+	//public static void loginVerification()
+	
+	public static void userLogin() {
+		
+		UserAcc info = null;
 		System.out.println("Please sign in to your account.\n" + 
 			"----------------------------------------");
-		try {
-			System.out.println("User name: ");
-			info.setUsername(inputs.next());
-			
-			System.out.println("Password, unobscured until further notice...");
-			info.setPassword(inputs.next());
-		} catch (InputMismatchException e) {
-			e.printStackTrace();
+		while (info == null) {
+			try {
+				
+				String[] inffo = prompt();
+
+				try {
+					info = verifyUser(inffo[0], inffo[1]);
+					if (info != null) 
+						menu(info);
+				} catch (WrongLoginException e) {
+					e.printStackTrace();
+				} catch (NonexistentUserException e) {
+					e.printStackTrace();
+				}
+			} catch (InputMismatchException e) {
+				e.printStackTrace();
+			}
 		}
-		return info;
+	}
+	
+	/*public static void userRegister() {
+		String[] inffo = prompt();
+		
+		System.out.println("Enter first name.");
+		String firstName = inputs.next();
+		
+		System.out.println("Enter last name.");
+		String lastName = inputs.next();
+		
+		UserAcc first = new UserAcc(inffo[0], (firstName + lastName), inffo[1]);
+		
+		ActualDB.createUserAcc(first);
+		
+		System.out.println("How much would you like to enter?");
+		double answer = Double.parseDouble(inputs.next());
+		
+		
+		
+		
+	}*/
+	
+	
+	public static String[] prompt() {
+		System.out.println("User name: ");
+		String username = inputs.next();
+		
+		System.out.println("Password, unobscured until further notice...");
+		String password = inputs.next();
+		
+		return new String[] {username, password};
+		
 	}
 	
 	public static void menu(UserAcc user) {
@@ -67,48 +110,61 @@ public class ATMController {
 					"\t2. Withdraw from account.\n" + 
 					"\t3. Signout.\n" + 
 					"Press 4. to quit.");
-			int select = inputs.nextInt();
-				switch (select) {
-					case 0:
-						System.out.println("Your current balance is: $" 
-								+ BankAccOperations.getBalance(user.getUsername()));
-						break;
-					case 1:
-						System.out.println("How much to deposit? Current balance is: $" 
-								+ BankAccOperations.getBalance(user.getUsername()));
+			try {
+				int select = Integer.parseInt(inputs.next());
+					switch (select) {
+						case 0:
+							System.out.println("Your current balance is: $" 
+									+ BankAccOperations.getBalance(user.getUsername()));
+							break;
+						case 1:
+							System.out.println("How much to deposit? Current balance is: $" 
+									+ BankAccOperations.getBalance(user.getUsername()));
+								
+							try {
+								BankAccOperations.depositMoney(Double.parseDouble(inputs.next()), user);
+								System.out.println("Your balance is now $" + /*user.getBalance()*/
+										BankAccOperations.getBalance(user.getUsername()));
+							} catch (NumberFormatException e) {
+								e.printStackTrace();
+								quit = 'n';
+							}
+							break;
+						case 2:
+							System.out.println("How much to withdraw? Current balance is: $" 
+									+ BankAccOperations.getBalance(user.getUsername())/*user.getBalance()*/);
 							
-						try {
-							BankAccOperations.depositMoney(inputs.nextDouble(), user);
-							System.out.println("Your balance is now $" + /*user.getBalance()*/
-									BankAccOperations.getBalance(user.getUsername()));
-						} catch (InputMismatchException e) {
-							e.printStackTrace();
+							try {
+								BankAccOperations.withdrawMoney(Double.parseDouble(inputs.next()), user);
+								System.out.println("Your balance is now $" + 
+										BankAccOperations.getBalance(user.getUsername()));
+									//user.getBalance());
+							} catch (NegativeBalanceException e) {
+								logger.error("We have a user who attempted to withdraw more than they actually have.");
+								e.printStackTrace();
+								quit = 'n';
+							} catch (NumberFormatException e) {
+								logger.error("A user entered the wrong input.");
+								e.printStackTrace();
+								quit = 'n';
+							}
+							break;
+						case 3:
+							System.out.println("Goodbye.");
+							start();
+							break;
+						case 4:
+							System.out.println("Goodbye.");
+							quit = 'q';
+							System.exit(0);
+							break;
+						default:
+							System.out.println("Not a valid option, try again.");
+						select = 0;
 						}
-						break;
-					case 2:
-						System.out.println("How much to withdraw? Current balance is: $" 
-								+ BankAccOperations.getBalance(user.getUsername())/*user.getBalance()*/);
-						
-						try {
-							BankAccOperations.withdrawMoney(inputs.nextDouble(), user);
-							System.out.println("Your balance is now $" + 
-									BankAccOperations.getBalance(user.getUsername()));
-								//user.getBalance());
-						} catch (NegativeBalanceException e) {
-							e.printStackTrace();
-						} catch (InputMismatchException e) {
-							e.printStackTrace();
-						}
-						break;
-					case 3:
-						System.out.println("Goodbye.");
-						quit = 'q';
-						break;
-					default:
-						System.out.println("Not a valid option, try again.");
-					select = 0;
+					} catch (NumberFormatException e) {
+						e.printStackTrace();
+					}
 				}
 			}
-		start();
 		}
-}

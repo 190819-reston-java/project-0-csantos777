@@ -10,8 +10,14 @@ VALUES('reg242','Ashley','Raulson','555 werte Rd.','Qert','USA','33346','Hawaii'
 INSERT INTO users(username,first_name,last_name,user_password) 
 VALUES('flack15','Charles','Sanders','hjkl');
 
+insert into user_address(username_id,address,city,country,state,zipcode) 
+values ('flack15','6745 Cofe Ln.','Alf','Canada','','33344');
+
+update users set first_name = 'Jack', last_name = 'Evans' where 
+username = 'flack15';
+
 insert into accounts(username_id,account_number,account_name,balance)
-values('reg242','6400760044','Checking',250.00);
+values('flack15','6400760044','Checking',250.00);
 
 insert into accounts(username_id,account_number,account_name,balance)
 values('csanders1','2500367034','Checking',550.00);

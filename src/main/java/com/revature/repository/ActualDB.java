@@ -14,13 +14,13 @@ import java.security.SecureRandom;
  */
 public class ActualDB implements DatabaseUserBA {
 	
-	public static UserAcc logUserAccIn(UserAcc usr) {
+	public static UserAcc logUserAccIn(String username, String password) {
 		UserAcc user = null;
 		try (Connection conn = ConnectorUtil.getConnection()) {
 			final String sql = "SELECT * FROM users WHERE username = ? AND user_password = ?;";
 			try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-				stmt.setString(1, usr.getUsername());
-				stmt.setString(2, encryptPassword(usr.getPassword()));
+				stmt.setString(1, username);
+				stmt.setString(2, encryptPassword(password));
 				if (stmt.execute()) {
 					try (ResultSet rs = stmt.executeQuery()) {
 						while (rs.next()) {
@@ -35,11 +35,41 @@ public class ActualDB implements DatabaseUserBA {
 		return user;
 	}
 	
+	public static int verifyUser(String username, String password) {
+		int res = 0;
+		try (Connection conn = ConnectorUtil.getConnection()) {
+			final String sql = "SELECT * FROM users WHERE username = ? AND user_password = ?;";
+			try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+				stmt.setString(1, username);
+				stmt.setString(2, encryptPassword(password));
+				if (stmt.execute()) {
+					try (ResultSet rs = stmt.executeQuery()) {
+						while (rs.next()) {
+							if (username.equals(rs.getString("username"))) {
+								if (rs.getString("user_password").equals(password)) {
+									res = 1;
+								}
+								else {
+									res = -1; 
+								}
+							}
+							else
+								res = 0;
+						}
+					}
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return res;
+	}
+	
 	private static String encryptPassword(String password) {
 		return password;
 	}
 	
-	public static ArrayList<UserAcc> getBankAccountsToDisplay() {
+	public static ArrayList<UserAcc> getUserAccounts() {
 		ArrayList<UserAcc> list = new ArrayList<UserAcc>();
 		try (Connection conn = ConnectorUtil.getConnection()) {
 			final String sql = "SELECT * FROM users;";
