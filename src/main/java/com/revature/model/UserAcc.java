@@ -43,6 +43,27 @@ public class UserAcc {
 		
 	}
 	
+public UserAcc(String username, String name, String password, double amount) {
+		
+		bankAccs = new ArrayList<BankAcc>();
+			
+		this.password = password;
+		this.username = username;
+		this.name = name;
+
+		address = "";
+		city = "";
+		zipcode = "";
+		state = "";
+		country = "";
+		
+		BankAcc m = new BankAcc();
+		m.setBalance(amount);
+		bankAccs.add(m);
+		
+		
+	}
+	
 	public UserAcc(String username, String name, String password, String address,
 			String city, String state, String zipcode, String country) {
 			

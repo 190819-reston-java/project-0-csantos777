@@ -30,17 +30,22 @@ public class BankAccOperationsMock {
 	}*/
 	
 	public static double depositMoney(double balance, UserAcc u) {
+		System.out.println(u.getBalance());
 		double currBal = u.getBalance();
-		return currBal += balance;
+		double newBal = currBal + balance;
+		u.setBalance(newBal);
+		return newBal;
 	}
 
 	public static double withdrawMoney(double balance, UserAcc u) {
 		double currBal = u.getBalance();
 		if (balance > currBal)
 			throw new NegativeBalanceException();
-		else
-			return (-1*(currBal -= balance));
-		
+		else {
+			double newBal = currBal - balance;
+			u.setBalance(newBal);
+			return newBal;
+		}
 	}
 	
 	/*public static void depositMoney(double balance, UserAcc user) {

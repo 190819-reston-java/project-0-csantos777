@@ -9,7 +9,7 @@ import com.revature.repository.TemporaryDB;
 
 public class DatabaseUserDBTest {
 	
-	TemporaryDB ins = new TemporaryDB();
+	// another mock test
 	@Test
 	public void addNewUserToBank() {
 		UserAcc example = new UserAcc("Ronald","dfef wtwet","123");
@@ -18,10 +18,10 @@ public class DatabaseUserDBTest {
 	
 	@Test
 	public void searchCurrentUser() {
-		UserAcc example = new UserAcc("Tammy","werwe erterte","EEE");
+		UserAcc example = new UserAcc("tam55","EEF","asdf wert");
 		
 		example.setBalance(100000.00);
-		UserAcc found = ins.getUserBA("Tammy");
+		UserAcc found = TemporaryDB.getUserBA("tam55");
 		
 		assertEquals(example.getName(),found.getName());
 		assertEquals(example.getBalance(),found.getBalance(), 0.01);
@@ -32,23 +32,4 @@ public class DatabaseUserDBTest {
 	}
 
 	// test methods to implement sometime soon.
-	/*UserAcc example = ActualDB.getUserAcc("reg241");
-	ArrayList <UserAcc> list = ActualDB.getBankAccountsToDisplay();
-	
-	System.out.println(list);
-	
-	example.setAddress("235 AAAA RD.");
-	example.setCity("EEE");
-	example.setState("Delaware");
-	
-	ActualDB.updateUserAcc(example);
-	list = ActualDB.getBankAccountsToDisplay();
-	
-	UserAcc nee = new UserAcc("eab64", "Jack Delvin", "23ff", "234 VVVV VV.",
-		"AAAA", "Virgin-ia", "22222", "USA");
-	
-	ActualDB.createUserAcc(nee);
-	list = ActualDB.getBankAccountsToDisplay();
-	System.out.println(list);*/
-
 }

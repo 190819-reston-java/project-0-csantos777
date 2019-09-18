@@ -8,6 +8,7 @@ import org.junit.Test;
 import com.revature.exception.NegativeBalanceException;
 
 public class BankAccOperationsTest {
+	// this is a mock test.
 
 	@Test
 	public void depositToBalance() {
@@ -23,7 +24,7 @@ public class BankAccOperationsTest {
 	public void withdrawFromBalance() {	
 		UserAcc test = new UserAcc("ASDF", "efef skfk", "hahaha");
 		
-		test.setBalance(100);
+		test.setBalance(100.00);
 		
 		BankAccOperationsMock.withdrawMoney(75, test);
 		assertEquals(25.00,test.getBalance(),0.01);
